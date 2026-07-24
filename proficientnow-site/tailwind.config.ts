@@ -1,41 +1,30 @@
 import type { Config } from "tailwindcss";
-import { theme } from "./content/theme";
 
+// Colours map to the CSS variables defined in globals.css, so Tailwind utility
+// classes (text-heading, bg-card, border-line, etc.) follow the light/dark theme.
 const config: Config = {
-  content: [
-    "./src/**/*.{ts,tsx}",
-    "./content/**/*.{ts,tsx}",
-  ],
+  content: ["./src/**/*.{ts,tsx}", "./content/**/*.{ts,tsx}"],
   theme: {
     extend: {
       colors: {
-        navy: theme.colors.navy,
-        ink: theme.colors.ink,
-        slate: theme.colors.slate,
-        accent: theme.colors.accent,
-        "accent-dark": theme.colors.accentDark,
-        line: theme.colors.line,
-        mist: theme.colors.mist,
+        accent: "var(--accent)",
+        accent2: "var(--accent2)",
+        heading: "var(--heading)",
+        txt: "var(--txt)",
+        muted: "var(--muted)",
+        card: "var(--card)",
+        cardbd: "var(--cardbd)",
+        line: "var(--line)",
+        panel: "var(--panel)",
+        navy: "var(--navy)",
       },
       fontFamily: {
         display: ["var(--font-display)", "system-ui", "sans-serif"],
         body: ["var(--font-body)", "system-ui", "sans-serif"],
       },
-      maxWidth: {
-        content: "1200px",
-      },
-      keyframes: {
-        marquee: {
-          "0%": { transform: "translateX(0)" },
-          "100%": { transform: "translateX(-50%)" },
-        },
-      },
-      animation: {
-        marquee: "marquee 32s linear infinite",
-      },
+      maxWidth: { content: "var(--maxw)" },
     },
   },
   plugins: [],
 };
-
 export default config;

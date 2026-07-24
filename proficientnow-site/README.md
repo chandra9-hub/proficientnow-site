@@ -103,3 +103,12 @@ proficientnow-site/
 ```
 
 Each component file has a plain-English comment at the top explaining what it does.
+
+---
+
+## v2 update — dark theme, animations, theme toggle
+
+- The site now has a **living animated background**, a **loader**, **light/dark toggle** (remembers the visitor's choice), a **scrolling Industries band**, tilt cards and scroll animations.
+- **Theme colours** live at the top of `src/app/globals.css` (the `:root` block is dark mode; `html.light` is light mode). Change them there.
+- **Industries band** text is in `content/industries.ts`.
+- Everything else you edit is still in the `content/` folder, same as before.
