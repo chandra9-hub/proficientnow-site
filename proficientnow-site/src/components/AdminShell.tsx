@@ -38,6 +38,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
             <nav style={{ display: "flex", gap: 20 }}>
               <Link href="/admin" className="muted" style={{ fontSize: 14, fontWeight: 500 }}>Dashboard</Link>
               <Link href="/admin/jobs" className="muted" style={{ fontSize: 14, fontWeight: 500 }}>Jobs</Link>
+              <Link href="/admin/applications" className="muted" style={{ fontSize: 14, fontWeight: 500 }}>Applications</Link>
             </nav>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 16 }}>

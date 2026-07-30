@@ -15,10 +15,10 @@ export default function AdminDashboard() {
           <h3 style={{ fontSize: 18 }}>Jobs manager →</h3>
           <p className="muted" style={{ marginTop: 10 }}>Create, edit and publish job listings.</p>
         </Link>
-        <div className="panel">
-          <h3 style={{ fontSize: 18 }}>Applications inbox</h3>
-          <p className="muted" style={{ marginTop: 10 }}>Coming next — view applicants and download CVs.</p>
-        </div>
+        <Link href="/admin/applications" className="panel tilt" style={{ display: "block" }}>
+          <h3 style={{ fontSize: 18 }}>Applications inbox →</h3>
+          <p className="muted" style={{ marginTop: 10 }}>View applicants, download CVs, track status.</p>
+        </Link>
       </div>
     </AdminShell>
   );
