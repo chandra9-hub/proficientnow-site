@@ -2,12 +2,14 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { navLinks } from "@content/nav";
 import ThemeToggle from "./ThemeToggle";
 
 export default function Navbar() {
   const [solid, setSolid] = useState(false);
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setSolid(window.scrollY > 60);
@@ -15,6 +17,9 @@ export default function Navbar() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // Hide the public navbar on the private admin/login pages.
+  if (pathname?.startsWith("/admin") || pathname?.startsWith("/login")) return null;
 
   return (
     <header className={`nav ${solid ? "solid" : ""}`}>

@@ -248,3 +248,7 @@ footer li a:hover{color:var(--heading); transform:translateX(4px);} footer li a:
   .careers-filters{grid-template-columns:1fr !important;}
   .careers-detail{grid-template-columns:1fr !important;}
 }
+
+/* auth / admin */
+.auth-wrap{min-height:100vh; display:flex; align-items:center; justify-content:center; padding:120px 24px; position:relative; z-index:2;}
+.auth-card{width:100%; max-width:400px;}

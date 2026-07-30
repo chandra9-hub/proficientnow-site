@@ -1,8 +1,15 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { site } from "@content/site";
 import { sectors } from "@content/sectors";
 
 export default function Footer() {
+  const pathname = usePathname();
+  // Hide the public footer on the private admin/login pages.
+  if (pathname?.startsWith("/admin") || pathname?.startsWith("/login")) return null;
+
   const year = new Date().getFullYear();
   return (
     <footer>
