@@ -11,7 +11,7 @@ function Block({ title, text }: { title: string; text: string | null }) {
   return (
     <div style={{ marginTop: 28 }}>
       <h3 style={{ fontSize: 18 }}>{title}</h3>
-      <p className="muted" style={{ marginTop: 8, whiteSpace: "pre-line", lineHeight: 1.7 }}>{text}</p>
+      <div className="muted rich" style={{ marginTop: 8, lineHeight: 1.7 }} dangerouslySetInnerHTML={{ __html: text }} />
     </div>
   );
 }
