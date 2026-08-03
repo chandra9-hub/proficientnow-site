@@ -32,3 +32,22 @@ export type Job = {
   slug: string | null;
   created_at: string;
 };
+
+export type Post = {
+  id: string;
+  type: string;            // 'news' | 'blog'
+  title: string;
+  slug: string;
+  excerpt: string | null;
+  body: string | null;
+  cover_image: string | null;
+  category: string | null;
+  author: string | null;
+  source_name: string | null;
+  source_url: string | null;
+  status: string;          // 'draft' | 'published'
+  featured: boolean | null;
+  published_at: string | null;
+  created_at: string;
+  updated_at: string;
+};

@@ -34,11 +34,12 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
       <div style={{ borderBottom: "1px solid var(--line)", background: "var(--navglass)", backdropFilter: "blur(10px)", position: "sticky", top: 0, zIndex: 50 }}>
         <div className="container-x" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 68, gap: 20, flexWrap: "wrap" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
-            <Link href="/admin" className="logo" style={{ fontSize: 20 }}>Proficient<span className="now">Now.</span></Link>
+            <Link href="/admin" className="logo"><img className="lg-light" src="/brand/logo-light.png" alt="ProficientNow" style={{height:22}} /><img className="lg-dark" src="/brand/logo-dark.png" alt="ProficientNow" style={{height:22}} /></Link>
             <nav style={{ display: "flex", gap: 20 }}>
               <Link href="/admin" className="muted" style={{ fontSize: 14, fontWeight: 500 }}>Dashboard</Link>
               <Link href="/admin/jobs" className="muted" style={{ fontSize: 14, fontWeight: 500 }}>Jobs</Link>
               <Link href="/admin/applications" className="muted" style={{ fontSize: 14, fontWeight: 500 }}>Applications</Link>
+              <Link href="/admin/news" className="muted" style={{ fontSize: 14, fontWeight: 500 }}>News &amp; Blog</Link>
             </nav>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 16 }}>

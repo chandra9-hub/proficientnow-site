@@ -9,5 +9,6 @@ export const navLinks = [
   { label: "Services", href: "/services" },
   { label: "Sectors", href: "/sectors" },
   { label: "Careers", href: "/careers" },
+  { label: "News & Blog", href: "/news" },
   { label: "Contact", href: "/contact" },
 ];
