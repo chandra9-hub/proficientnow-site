@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import Loader from "@/components/Loader";
 import LivingBackground from "@/components/LivingBackground";
 import SiteScripts from "@/components/SiteScripts";
+import CursorFX from "@/components/CursorFX";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-body", display: "swap" });
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-display", display: "swap" });
@@ -21,7 +22,7 @@ export const metadata: Metadata = {
 };
 
 // Applies the saved light/dark choice before first paint (no flash of wrong theme).
-const themeInit = `(function(){try{if(localStorage.getItem('pn-theme')==='light'){document.documentElement.classList.add('light');}}catch(e){}})();`;
+const themeInit = `(function(){try{if(localStorage.getItem('pn-theme')==='dark'){document.documentElement.classList.add('dark');}}catch(e){}})();`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -32,6 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <Loader />
         <LivingBackground />
+        <CursorFX />
         <Navbar />
         <main>{children}</main>
         <Footer />

@@ -3,6 +3,7 @@ import SectionHeading from "@/components/SectionHeading";
 import SectorCard from "@/components/SectorCard";
 import IndustriesMarquee from "@/components/IndustriesMarquee";
 import CTASection from "@/components/CTASection";
+import DataChart from "@/components/DataChart";
 import Emphasize from "@/components/Emphasize";
 import { home } from "@content/home";
 import { site } from "@content/site";
@@ -27,21 +28,22 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* DIFFERENTIATORS */}
+      {/* WHY US — paragraph + UK data chart */}
       <section className="pad">
-        <div className="secmark">ProficientNow.</div>
+        <div className="secmark">Why us</div>
         <div className="container-x">
-          <div className="reveal parallax">
-            <SectionHeading eyebrow={home.intro.eyebrow} heading={home.intro.heading} body={home.intro.body} />
-          </div>
-          <div className="grid-4" style={{ marginTop: 56 }}>
-            {home.differentiators.map((d) => (
-              <div className="diff reveal tilt" key={d.title}>
-                <div className="bar" />
-                <h3>{d.title}</h3>
-                <p>{d.body}</p>
+          <div className="contentband reveal">
+            <div className="prose">
+              <p className="eyebrow">{home.intro.eyebrow}</p>
+              <h2><Emphasize text={home.intro.heading} /></h2>
+              {home.intro.paragraphs.map((p, i) => (<p key={i}>{p}</p>))}
+              <div className="mini">
+                {home.intro.points.map((pt) => (
+                  <div key={pt.title}><b>{pt.title}</b><span>{pt.note}</span></div>
+                ))}
               </div>
-            ))}
+            </div>
+            <div className="art"><DataChart /></div>
           </div>
         </div>
       </section>
@@ -66,38 +68,19 @@ export default function HomePage() {
       </section>
 
       {/* PROCESS */}
-      <section className="pad">
+      <section className="pad" style={{ paddingTop: 0 }}>
         <div className="secmark">Process</div>
         <div className="container-x">
           <div className="reveal parallax">
             <SectionHeading eyebrow={home.process.eyebrow} heading={home.process.heading} body={home.process.body} />
           </div>
           <div className="proc-grid" style={{ marginTop: 48 }}>
-            {home.process.steps.map((st, i) => (
-              <div className="step reveal tilt" key={st.title}>
-                <div className="n">{String(i + 1).padStart(2, "0")}</div>
+            {home.process.steps.map((st) => (
+              <div className="step reveal" key={st.title}>
+                <div className="dot" />
                 <div className="day">{st.day}</div>
                 <h3>{st.title}</h3>
                 <p>{st.body}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* TESTIMONIALS */}
-      <section className="pad">
-        <div className="secmark">Clients</div>
-        <div className="container-x">
-          <div className="reveal parallax">
-            <SectionHeading eyebrow={home.testimonials.eyebrow} heading={home.testimonials.heading} center />
-          </div>
-          <div className="grid-3" style={{ marginTop: 48 }}>
-            {home.testimonials.items.map((t, i) => (
-              <div className="test reveal tilt" key={i}>
-                <div className="q">&ldquo;</div>
-                <blockquote>{t.quote}</blockquote>
-                <div className="who"><div className="a">{t.author}</div><div className="d">{t.detail}</div></div>
               </div>
             ))}
           </div>

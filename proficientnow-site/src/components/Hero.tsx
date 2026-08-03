@@ -16,7 +16,6 @@ export default function Hero() {
           <Link href={hero.secondaryCta.href} className="btn-ghost">{hero.secondaryCta.label}</Link>
         </div>
       </div>
-      <div className="scroll-hint"><div className="dot" />Scroll</div>
     </section>
   );
 }

@@ -16,7 +16,7 @@ export default function Footer() {
       <div className="container-x">
         <div className="foot-grid">
           <div>
-            <div className="logo">Proficient<span className="now">Now.</span></div>
+            <div className="logo"><img className="lg-light" src="/brand/logo-light.png" alt="ProficientNow" /><img className="lg-dark" src="/brand/logo-dark.png" alt="ProficientNow" /></div>
             <p className="blurb">{site.tagline}</p>
           </div>
           <div>

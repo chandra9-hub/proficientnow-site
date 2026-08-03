@@ -1,6 +1,5 @@
 // =============================================================================
-// HOME PAGE content. Edit the words below to change the homepage.
-// Words wrapped like *this* show in the accent colour.
+// HOME PAGE content. Words wrapped like *this* show in the accent colour.
 // =============================================================================
 
 export const home = {
@@ -14,39 +13,32 @@ export const home = {
     secondaryCta: { label: "How it works", href: "/services" },
   },
 
+  // Paragraph-led "why us" section (shown beside the UK data chart)
   intro: {
     eyebrow: "Why teams choose us",
     heading: "Generalists know a little about everything. We know everything about *your bit.*",
-    body: "Spreading thin across every industry is how you end up with a stack of \"close enough\" CVs. We go deep where it counts — faster searches, people who actually fit.",
-  },
-
-  differentiators: [
-    { title: "Pure contingency", body: "You only pay when someone actually starts. Radical concept, we know — but it keeps us honest." },
-    { title: "Proprietary network", body: "The best candidates aren't refreshing job boards at 2am. Good news: we already know them." },
-    { title: "Global sourcing reach", body: "Different time zones, same obsession. Someone, somewhere, is always sourcing for you." },
-    { title: "Placement guarantee", body: "If a hire doesn't stick, we go again — free. No invoices, no awkward conversations." },
-  ],
-
-  process: {
-    eyebrow: "Our process",
-    heading: "From brief to hire — *here's exactly how.*",
-    body: "You stay in control at every stage. We handle the sourcing, screening and the endless calendar wrangling.",
-    steps: [
-      { day: "Day 1", title: "Brief & intake", body: "We map your role, culture and timeline in a single working session." },
-      { day: "Day 2–3", title: "Market mapping", body: "We search our network, benchmark the market and identify best-fit prospects." },
-      { day: "Day 3–5", title: "Screening", body: "Competency interviews and detailed evaluation reports on every candidate." },
-      { day: "Day 3–10", title: "Shortlist", body: "Four to six curated, pre-screened candidates — not a flood of maybes." },
-      { day: "Day 11+", title: "Offer & close", body: "Negotiation support, plus a 60–90 day placement guarantee." },
+    paragraphs: [
+      "Spreading thin across every industry is how you end up with a stack of \"close enough\" CVs and a search that drags on for months. We work the opposite way — every consultant lives inside their sector, so the shortlist is smaller, sharper and genuinely relevant.",
+      "It's pure contingency, so you only pay when someone actually starts. Our sourcing runs across time zones, which means a search is always moving — and the best people aren't refreshing job boards at 2am; they're in a network we've spent years building. And if a hire doesn't stick, we go again, backed by our 60–90 day placement guarantee.",
+    ],
+    points: [
+      { title: "Pure contingency", note: "Pay only when you hire" },
+      { title: "Proprietary network", note: "Beyond the job boards" },
+      { title: "Global sourcing reach", note: "Always in motion" },
+      { title: "Placement guarantee", note: "60–90 day cover" },
     ],
   },
 
-  testimonials: {
-    eyebrow: "Testimonials",
-    heading: "Don't just take our word for it.",
-    items: [
-      { quote: "Two generalist firms. Four months. Zero hires. ProficientNow delivered five qualified candidates in ten days — our new Head of Compliance started that same quarter.", author: "VP of Human Resources", detail: "Financial services" },
-      { quote: "The contingency model got us in the door. The quality of their network is why we've come back four times.", author: "Director of Talent Acquisition", detail: "Manufacturing" },
-      { quote: "They understood our supply chain environment before the first call ended. Eight days later we had exactly the right candidate.", author: "Head of Talent Acquisition", detail: "Logistics & distribution" },
+  process: {
+    eyebrow: "Our process",
+    heading: "From brief to hire — *usually within a week.*",
+    body: "You stay in control at every stage. We handle the sourcing, the screening and the calendar wrangling — and keep you posted the whole way through.",
+    steps: [
+      { day: "Day 1", title: "Brief & intake", body: "We map your role, culture and timeline in a single working session." },
+      { day: "Days 1–2", title: "Market mapping", body: "We search our network, benchmark the market and identify best-fit prospects." },
+      { day: "Days 2–4", title: "Screening", body: "Competency interviews and detailed evaluation reports on every candidate." },
+      { day: "Days 3–5", title: "Shortlist", body: "Four to six curated, pre-screened candidates — not a flood of maybes." },
+      { day: "Within the week", title: "Offer & close", body: "Negotiation support, plus a 60–90 day placement guarantee." },
     ],
   },
 
