@@ -29,10 +29,10 @@ export const site = {
   // ---- Also operating in (cities only; UK is the head office) ----
   offices: [
     { city: "London", country: "United Kingdom" },
-    { city: "Europe", country: "" },
     { city: "Dubai", country: "United Arab Emirates" },
     { city: "Chicago", country: "United States" },
     { city: "Victoria", country: "Australia" },
+    { city: "Europe", country: "" },
   ],
 
   socials: {

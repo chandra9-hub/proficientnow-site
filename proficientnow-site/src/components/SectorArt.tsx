@@ -1,0 +1,29 @@
+// Industry-themed line illustrations for each sector (no photos, no people, no AI).
+// Chosen by the sector's `icon` keyword. Brand-coloured, clean and consistent.
+export default function SectorArt({ icon }: { icon: string }) {
+  const S = { stroke: "var(--accent)", strokeWidth: 3, fill: "none", strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+  const N = { stroke: "var(--navy)", strokeWidth: 3, fill: "none", strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+  const art: Record<string, JSX.Element> = {
+    engineering: (<g><circle cx="150" cy="150" r="46" {...S} /><circle cx="150" cy="150" r="14" {...N} />{Array.from({length:8}).map((_,i)=>{const a=i*Math.PI/4;return <line key={i} x1={150+Math.cos(a)*46} y1={150+Math.sin(a)*46} x2={150+Math.cos(a)*64} y2={150+Math.sin(a)*64} {...S}/>;})}<circle cx="250" cy="230" r="30" {...N}/><circle cx="250" cy="230" r="9" {...S}/>{Array.from({length:6}).map((_,i)=>{const a=i*Math.PI/3;return <line key={i} x1={250+Math.cos(a)*30} y1={230+Math.sin(a)*30} x2={250+Math.cos(a)*42} y2={230+Math.sin(a)*42} {...N}/>;})}</g>),
+    construction: (<g><line x1="70" y1="250" x2="330" y2="250" {...N}/><rect x="90" y="150" width="90" height="100" {...S}/><line x1="112" y1="150" x2="112" y2="250" {...S}/><line x1="135" y1="150" x2="135" y2="250" {...S}/><line x1="158" y1="150" x2="158" y2="250" {...S}/><path d="M230 250 V90 H250 M240 90 L320 120 M240 130 L295 148" {...N}/><line x1="240" y1="90" x2="240" y2="70" {...N}/></g>),
+    manufacturing: (<g><path d="M70 250 V160 L130 195 V160 L190 195 V160 L250 195 V250 Z" {...S}/><line x1="70" y1="250" x2="270" y2="250" {...N}/><rect x="250" y="120" width="40" height="130" {...N}/><path d="M255 120 q15 -30 30 0" {...S}/></g>),
+    medical: (<g><rect x="90" y="90" width="180" height="150" rx="14" {...S}/><path d="M180 120 v90 M135 165 h90" {...N}/><path d="M110 210 h20 l10 -22 l14 40 l12 -30 h24" {...S}/></g>),
+    health: (<g><path d="M80 170 h50 l18 -34 l24 74 l20 -54 l14 30 h74" {...S}/><path d="M200 250 C120 200 120 130 165 120 C185 116 200 130 200 145 C200 130 215 116 235 120 C280 130 280 200 200 250 Z" {...N}/></g>),
+    automotive: (<g><path d="M80 200 h40 l24 -34 h72 l30 34 h44 v34 h-24 M96 234 H84" {...S}/><circle cx="130" cy="238" r="18" {...N}/><circle cx="252" cy="238" r="18" {...N}/><path d="M300 150 l-16 30 h16 l-16 30" {...S}/></g>),
+    energy: (<g><circle cx="190" cy="120" r="12" {...N}/><path d="M190 120 C190 60 180 60 150 92 M190 120 C244 90 240 82 234 150 M190 120 C170 178 178 176 220 190" {...S}/><line x1="190" y1="132" x2="190" y2="250" {...N}/><circle cx="270" cy="90" r="20" {...S}/>{Array.from({length:8}).map((_,i)=>{const a=i*Math.PI/4;return <line key={i} x1={270+Math.cos(a)*26} y1={90+Math.sin(a)*26} x2={270+Math.cos(a)*34} y2={90+Math.sin(a)*34} {...S}/>;})}</g>),
+    finance: (<g><line x1="80" y1="240" x2="300" y2="240" {...N}/><rect x="100" y="180" width="34" height="60" {...S}/><rect x="150" y="140" width="34" height="100" {...S}/><rect x="200" y="100" width="34" height="140" {...S}/><path d="M110 170 L165 130 L215 90 L280 70" {...N}/><path d="M262 70 h18 v18" {...N}/></g>),
+    legal: (<g><line x1="190" y1="80" x2="190" y2="240" {...N}/><line x1="120" y1="110" x2="260" y2="110" {...N}/><circle cx="190" cy="80" r="8" {...S}/><path d="M120 110 L96 175 h48 Z" {...S}/><path d="M120 175 a24 12 0 0 0 48 0" {...S}/><path d="M260 110 L236 175 h48 Z" {...S}/><path d="M236 175 a24 12 0 0 0 48 0" {...S}/><line x1="150" y1="240" x2="230" y2="240" {...N}/></g>),
+    sales: (<g><path d="M80 230 L150 180 L200 210 L300 110" {...S}/><path d="M280 110 h20 v20" {...S}/>{[[80,230],[150,180],[200,210],[300,110]].map((p,i)=>(<circle key={i} cx={p[0]} cy={p[1]} r="6" {...N}/>))}<circle cx="300" cy="230" r="26" {...N}/><path d="M290 230 l8 8 l14 -16" {...S}/></g>),
+    operations: (<g><circle cx="150" cy="150" r="42" {...S}/><circle cx="150" cy="150" r="12" {...N}/>{Array.from({length:8}).map((_,i)=>{const a=i*Math.PI/4;return <line key={i} x1={150+Math.cos(a)*42} y1={150+Math.sin(a)*42} x2={150+Math.cos(a)*58} y2={150+Math.sin(a)*58} {...S}/>;})}<path d="M210 210 h70 M270 200 l10 10 l-10 10" {...N}/></g>),
+    supplychain: (<g><rect x="80" y="150" width="60" height="60" {...S}/><rect x="150" y="150" width="60" height="60" {...N}/><rect x="115" y="90" width="60" height="60" {...S}/><path d="M230 200 h50 v-30 h20 l20 24 v6 h-90 Z" {...N}/><circle cx="250" cy="212" r="10" {...S}/><circle cx="298" cy="212" r="10" {...S}/></g>),
+    electrical: (<g><path d="M170 70 L120 170 h44 L150 250 L240 140 h-44 L220 70 Z" {...S}/><path d="M70 150 h30 M300 150 h30 M90 100 h24 M290 200 h-24" {...N}/></g>),
+    civil: (<g><path d="M60 180 h280" {...N}/><path d="M60 180 C130 100 250 100 320 180" {...S}/>{[100,150,190,240,280].map((x,i)=>(<line key={i} x1={x} y1="180" x2={x} y2={112+Math.abs(190-x)*0.28} {...S}/>))}<line x1="60" y1="180" x2="60" y2="230" {...N}/><line x1="320" y1="180" x2="320" y2="230" {...N}/></g>),
+    facilities: (<g><rect x="90" y="110" width="130" height="140" {...S}/>{[0,1,2].map(r=>[0,1,2].map(c=>(<rect key={`${r}-${c}`} x={106+c*38} y={126+r*38} width="22" height="22" {...S}/>)))}<circle cx="270" cy="150" r="20" {...N}/><path d="M270 170 v40 M258 210 h24" {...N}/></g>),
+    commercial: (<g><rect x="90" y="130" width="150" height="110" rx="10" {...S}/><path d="M140 130 v-16 h50 v16" {...S}/><line x1="90" y1="180" x2="240" y2="180" {...N}/><rect x="250" y="160" width="60" height="80" {...N}/>{[0,1,2].map(r=>[0,1].map(c=>(<rect key={`${r}-${c}`} x={260+c*22} y={172+r*20} width="12" height="12" {...S}/>)))}</g>),
+  };
+  return (
+    <svg viewBox="0 0 380 320" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%" }}>
+      {art[icon] || art.commercial}
+    </svg>
+  );
+}

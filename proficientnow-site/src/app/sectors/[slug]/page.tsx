@@ -1,20 +1,25 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import Emphasize from "@/components/Emphasize";
 import SectorIcon from "@/components/SectorIcon";
+import SectorArt from "@/components/SectorArt";
 import SectorVisual from "@/components/SectorVisual";
 import CTASection from "@/components/CTASection";
 import { sectors } from "@content/sectors";
 
-export function generateStaticParams() {
-  return sectors.map((s) => ({ slug: s.slug }));
-}
-
+export function generateStaticParams() { return sectors.map((s) => ({ slug: s.slug })); }
 export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
   const s = sectors.find((x) => x.slug === params.slug);
-  if (!s) return { title: "Sector" };
-  return { title: `${s.name} recruitment`, description: s.intro };
+  return s ? { title: `${s.name} recruitment`, description: s.intro.slice(0, 150) } : { title: "Sector" };
+}
+
+// industry illustration (or real photo if provided) inside a framed panel
+function IndustryVisual({ icon, image, name }: { icon: string; image?: string; name: string }) {
+  return (
+    <div className="sector-visual industry">
+      {image ? <img src={image} alt={name} className="sector-photo" /> : <SectorArt icon={icon} />}
+    </div>
+  );
 }
 
 export default function SectorDetail({ params }: { params: { slug: string } }) {
@@ -23,31 +28,40 @@ export default function SectorDetail({ params }: { params: { slug: string } }) {
 
   return (
     <>
-      <section className="page-header">
+      <section className="page-header" style={{ paddingBottom: 0 }}>
         <div className="secmark">{s.name}</div>
         <div className="container-x">
           <Link href="/sectors" className="backlink">← All sectors</Link>
           <div className="sector-hero">
             <div className="ico" style={{ width: 60, height: 60, borderRadius: 16 }}><SectorIcon name={s.icon} /></div>
-            <div>
-              <p className="eyebrow">Sector focus</p>
-              <h1>{s.name}</h1>
-            </div>
+            <div><p className="eyebrow">Sector focus</p><h1>{s.name}</h1></div>
           </div>
-          <p style={{ fontSize: 20, color: "var(--body)", marginTop: 22, maxWidth: "62ch" }}>{s.intro}</p>
         </div>
       </section>
 
-      <section className="pad" style={{ paddingTop: 40 }}>
+      <section className="pad" style={{ paddingTop: 44 }}>
         <div className="container-x" style={{ display: "flex", flexDirection: "column", gap: 90 }}>
+          {/* overview */}
+          <div className="contentband reveal">
+            <div className="prose">
+              <p className="eyebrow">Overview</p>
+              <h2 style={{ fontSize: 34 }}>The {s.name.toLowerCase()} market at a glance</h2>
+              <p>{s.intro}</p>
+            </div>
+            <IndustryVisual icon={s.icon} image={s.image} name={s.name} />
+          </div>
+
+          {/* alternating deep-dive sections */}
           {s.sections.map((sec, i) => (
             <div key={sec.title} className={`contentband reveal ${i % 2 === 1 ? "flip" : ""}`}>
               <div className="prose">
                 <p className="eyebrow">{`0${i + 1}`}</p>
-                <h2 style={{ fontSize: 34 }}>{sec.title}</h2>
+                <h2 style={{ fontSize: 32 }}>{sec.title}</h2>
                 <p>{sec.body}</p>
               </div>
-              <div className="art"><SectorVisual variant={i} /></div>
+              <div className="art">
+                {i % 2 === 0 ? <IndustryVisual icon={s.icon} image={s.image} name={s.name} /> : <SectorVisual variant={i} />}
+              </div>
             </div>
           ))}
 
@@ -56,19 +70,13 @@ export default function SectorDetail({ params }: { params: { slug: string } }) {
             <p className="eyebrow">Worth having</p>
             <h2 style={{ fontSize: 34, marginTop: 8 }}>Certifications &amp; qualifications</h2>
             <div className="cert-grid">
-              {s.certifications.map((c, i) => (
-                <div key={c} className="cert"><span className="n">{`0${i + 1}`}</span><span>{c}</span></div>
-              ))}
+              {s.certifications.map((c, i) => (<div key={c} className="cert"><span className="n">{`0${i + 1}`}</span><span>{c}</span></div>))}
             </div>
           </div>
         </div>
       </section>
 
-      <CTASection
-        heading={`Hiring in ${s.name}? *We already know the market.*`}
-        body="Tell us the role and we'll show you specialist talent that generalist agencies never reach — usually within a week."
-        ctaLabel="Start a search" ctaHref="/contact" mark={s.name}
-      />
+      <CTASection heading={`Hiring in ${s.name}? *We already know the market.*`} body="Tell us the role and we'll show you specialist talent that generalist agencies never reach — usually within a week." ctaLabel="Start a search" ctaHref="/contact" mark={s.name} />
     </>
   );
 }
