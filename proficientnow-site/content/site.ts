@@ -13,7 +13,7 @@ export const site = {
 
   // ---- Primary contact (UK office) ----
   contact: {
-    email: "info@proficientnow.com",
+    email: "info@proficientnow.co.uk",
     phone: "+44 20 4529 1462",
     phoneHref: "tel:+442045291462",
     address: {
@@ -29,8 +29,10 @@ export const site = {
   // ---- Also operating in (cities only; UK is the head office) ----
   offices: [
     { city: "London", country: "United Kingdom" },
+    { city: "Europe", country: "" },
     { city: "Dubai", country: "United Arab Emirates" },
     { city: "Chicago", country: "United States" },
+    { city: "Victoria", country: "Australia" },
   ],
 
   socials: {

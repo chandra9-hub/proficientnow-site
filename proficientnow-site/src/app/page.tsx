@@ -61,7 +61,7 @@ export default function HomePage() {
           </div>
           <div className="grid-4" style={{ marginTop: 48 }}>
             {sectors.slice(0, 8).map((s) => (
-              <SectorCard key={s.name} name={s.name} blurb={s.blurb} icon={s.icon} />
+              <SectorCard key={s.name} name={s.name} blurb={s.blurb} icon={s.icon} slug={s.slug} />
             ))}
           </div>
         </div>

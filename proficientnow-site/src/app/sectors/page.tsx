@@ -17,7 +17,7 @@ export default function SectorsPage() {
         <div className="container-x">
           <div className="grid-4" style={{ gridTemplateColumns: "repeat(3,1fr)" }}>
             {sectors.map((s) => (
-              <SectorCard key={s.name} name={s.name} blurb={s.blurb} icon={s.icon} />
+              <SectorCard key={s.name} name={s.name} blurb={s.blurb} icon={s.icon} slug={s.slug} />
             ))}
           </div>
         </div>

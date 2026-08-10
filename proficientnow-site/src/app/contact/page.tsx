@@ -25,7 +25,7 @@ export default function ContactPage() {
           <SectionReveal>
             <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
               <div>
-                <h3 style={{ fontSize: 18 }}>Head office</h3>
+                <h3 style={{ fontSize: 18 }}>Our UK office</h3>
                 <p className="muted" style={{ marginTop: 12 }}>
                   {site.contact.address.line1}<br />
                   {site.contact.address.city}, {site.contact.address.postcode}<br />{site.contact.address.country}
@@ -44,7 +44,7 @@ export default function ContactPage() {
                 <ul style={{ listStyle: "none", marginTop: 12, display: "flex", flexDirection: "column", gap: 8 }}>
                   {site.offices.map((o) => (
                     <li key={o.city} className="muted" style={{ fontSize: 14 }}>
-                      <span style={{ color: "var(--heading)", fontWeight: 500 }}>{o.city}</span>, {o.country}
+                      <span style={{ color: "var(--heading)", fontWeight: 500 }}>{o.city}</span>{o.country ? ", " + o.country : ""}
                     </li>
                   ))}
                 </ul>
