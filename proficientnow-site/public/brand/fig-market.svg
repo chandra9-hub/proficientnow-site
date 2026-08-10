@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" role="img">
+  <rect width="1200" height="520" fill="#eef2fb"/>
+  <g stroke="#dbe3f4" stroke-width="1.5">
+    <line x1="120" y1="120" x2="1080" y2="120"/><line x1="120" y1="220" x2="1080" y2="220"/>
+    <line x1="120" y1="320" x2="1080" y2="320"/><line x1="120" y1="420" x2="1080" y2="420"/>
+  </g>
+  <path d="M140 150 L300 175 L460 250 L620 300 L780 330 L940 360 L1060 372" fill="none" stroke="#3d6be4" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M140 150 L300 175 L460 250 L620 300 L780 330 L940 360 L1060 372 L1060 420 L140 420 Z" fill="#3d6be4" fill-opacity="0.08"/>
+  <circle cx="140" cy="150" r="9" fill="#1a2b5e"/><circle cx="1060" cy="372" r="9" fill="#3d6be4"/>
+  <text x="120" y="475" font-family="Georgia,serif" font-size="30" fill="#1a2b5e" font-weight="bold">UK labour market</text>
+</svg>

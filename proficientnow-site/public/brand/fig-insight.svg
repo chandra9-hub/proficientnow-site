@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" role="img">
+  <rect width="1200" height="520" fill="#eef2fb"/>
+  <g fill="none" stroke="#3d6be4">
+    <circle cx="600" cy="250" r="180" stroke-opacity="0.18" stroke-width="3"/>
+    <circle cx="600" cy="250" r="120" stroke-opacity="0.28" stroke-width="3"/>
+    <circle cx="600" cy="250" r="60" stroke-opacity="0.4" stroke-width="3"/>
+  </g>
+  <circle cx="600" cy="250" r="14" fill="#1a2b5e"/>
+  <g fill="#3d6be4"><circle cx="600" cy="70" r="10"/><circle cx="780" cy="250" r="10"/><circle cx="600" cy="430" r="10"/><circle cx="420" cy="250" r="10"/></g>
+  <text x="120" y="490" font-family="Georgia,serif" font-size="30" fill="#1a2b5e" font-weight="bold">Market &amp; policy insight</text>
+</svg>

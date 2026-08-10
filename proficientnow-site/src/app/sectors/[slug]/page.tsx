@@ -60,7 +60,7 @@ export default function SectorDetail({ params }: { params: { slug: string } }) {
                 <p>{sec.body}</p>
               </div>
               <div className="art">
-                {i % 2 === 0 ? <IndustryVisual icon={s.icon} image={s.image} name={s.name} /> : <SectorVisual variant={i} />}
+                {i === 2 ? <IndustryVisual icon={s.icon} image={s.image2} name={s.name} /> : <SectorVisual variant={i} />}
               </div>
             </div>
           ))}
