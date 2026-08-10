@@ -49,6 +49,13 @@ export default function PostArticle({ type, slug }: { type: "news" | "blog"; slu
                   {post.source_url && <a href={post.source_url} target="_blank" rel="noreferrer">{post.source_url}</a>}
                 </div>
               )}
+              <div className="article-cta">
+                <div>
+                  <h3>{type === "news" ? "Hiring in this market?" : "Put this into practice"}</h3>
+                  <p>Tell us the role and we'll show you specialist talent that generalist agencies never reach — usually within a week.</p>
+                </div>
+                <Link href="/contact" className="btn-primary">Start a search →</Link>
+              </div>
             </>
           )}
         </div>

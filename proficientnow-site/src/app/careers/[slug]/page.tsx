@@ -9,9 +9,9 @@ import ApplyForm from "@/components/ApplyForm";
 function Block({ title, text }: { title: string; text: string | null }) {
   if (!text) return null;
   return (
-    <div style={{ marginTop: 28 }}>
+    <div style={{ marginTop: 26 }}>
       <h3 style={{ fontSize: 18 }}>{title}</h3>
-      <div className="muted rich" style={{ marginTop: 8, lineHeight: 1.7 }} dangerouslySetInnerHTML={{ __html: text }} />
+      <div className="muted rich" style={{ marginTop: 8, lineHeight: 1.75 }} dangerouslySetInnerHTML={{ __html: text }} />
     </div>
   );
 }
@@ -43,10 +43,12 @@ export default function JobDetailPage() {
       </div>
     );
 
+  const hasDetails = !!(job.description || job.responsibilities || job.requirements || job.benefits || job.working_hours);
+
   return (
     <>
-      <section className="page-header" style={{ paddingBottom: 40 }}>
-        <div className="container-x">
+      <section className="page-header" style={{ paddingBottom: 30 }}>
+        <div className="container-x" style={{ maxWidth: 820, marginLeft: "auto", marginRight: "auto" }}>
           <Link href="/careers" className="accent" style={{ fontSize: 14, fontWeight: 600 }}>← All roles</Link>
           <h1 style={{ marginTop: 16 }}>{job.title}</h1>
           <div className="muted" style={{ display: "flex", gap: 18, flexWrap: "wrap", marginTop: 18, fontSize: 15 }}>
@@ -60,17 +62,20 @@ export default function JobDetailPage() {
         </div>
       </section>
 
-      <section className="pad" style={{ paddingTop: 20 }}>
-        <div className="container-x careers-detail" style={{ display: "grid", gridTemplateColumns: "1.3fr 1fr", gap: 48, alignItems: "start" }}>
+      <section className="pad" style={{ paddingTop: 10 }}>
+        <div className="container-x" style={{ maxWidth: 820, marginLeft: "auto", marginRight: "auto" }}>
+          {hasDetails && (
+            <div className="panel" style={{ marginBottom: 28 }}>
+              <Block title="About the role" text={job.description} />
+              <Block title="Responsibilities" text={job.responsibilities} />
+              <Block title="Requirements" text={job.requirements} />
+              <Block title="Benefits" text={job.benefits} />
+              {job.working_hours && <Block title="Working hours" text={job.working_hours} />}
+            </div>
+          )}
+
           <div className="panel">
-            <Block title="About the role" text={job.description} />
-            <Block title="Responsibilities" text={job.responsibilities} />
-            <Block title="Requirements" text={job.requirements} />
-            <Block title="Benefits" text={job.benefits} />
-            {job.working_hours && <Block title="Working hours" text={job.working_hours} />}
-          </div>
-          <div className="panel" style={{ position: "sticky", top: 100 }}>
-            <h2 style={{ fontSize: 22, marginBottom: 18 }}>Apply for this role</h2>
+            <h2 style={{ fontSize: 24 }}>Apply for this role</h2>
             <ApplyForm jobId={job.id} jobTitle={job.title} />
           </div>
         </div>
