@@ -58,7 +58,7 @@ export default function PostsBrowser({ type }: { type: "news" | "blog" }) {
           ) : (
             posts.map((p) => (
               <Link key={p.id} href={`/${type}/${p.slug}`} className="post-card zoom">
-                <div className="hd" style={{ backgroundImage: `url(${p.cover_image || topicPhoto(p.category, 1, 800, 500)})` }}>
+                <div className="hd" style={{ backgroundImage: `url(${p.cover_image || topicPhoto(p.category, 0)})` }}>
                   {p.category && <span className="cat">{p.category}</span>}
                 </div>
                 <div className="bd">

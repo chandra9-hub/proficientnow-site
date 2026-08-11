@@ -1,44 +1,45 @@
-// Topic-matched REAL photos (keyword-relevant, license-free demo source).
-// Swap any post's photo by setting its "Cover image" URL in the admin editor.
-const CAT: Record<string, string> = {
-  "economy": "london,finance,skyline",
-  "labour market": "office,corporate,business",
-  "vacancies": "office,workplace,desk",
-  "policy": "london,westminster,government",
-  "regulation": "office,documents,business",
-  "skills": "technology,training,computer",
-  "hiring strategy": "business,meeting,handshake",
-  "workforce": "team,office,collaboration",
-  "sectors": "industry,factory,engineering",
-  "talent": "office,business,professional",
-  "compliance": "office,documents,paperwork",
-};
-const SECTORS: Record<string, string> = {
-  "engineering": "engineering,machinery,industrial",
-  "construction": "construction,site,crane",
-  "manufacturing": "factory,manufacturing,production",
-  "medical-devices": "medical,laboratory,equipment",
-  "healthcare": "hospital,healthcare,clinic",
-  "automotive": "automotive,car,factory",
-  "renewable-energy": "wind,turbine,solar,energy",
-  "finance": "finance,office,charts",
-  "legal": "law,books,office",
-  "sales-commercial": "business,meeting,office",
-  "operations": "warehouse,operations,logistics",
-  "supply-chain": "shipping,containers,port",
-  "electrical": "electrical,power,industrial",
-  "civil": "bridge,infrastructure,construction",
-  "facilities-management": "building,facility,commercial",
-  "commercial-services": "office,building,corporate",
-};
-const base = (kw: string, lock: number, w: number, h: number) =>
-  `https://loremflickr.com/${w}/${h}/${encodeURIComponent(kw)}?lock=${lock}`;
+// Curated, VERIFIED people-free photos, hosted locally in /public/photos.
+// (Unsplash — free for commercial use, no attribution required.)
+// Swap any post's image via the "Cover image" field in the admin editor.
+const P = (n: string) => `/photos/${n}.jpg`;
 
-export function topicPhoto(category: string | null, lock = 1, w = 1200, h = 800) {
-  const kw = CAT[(category || "").toLowerCase()] || "office,corporate,business";
-  return base(kw, lock, w, h);
+const CAT: Record<string, string[]> = {
+  "economy": ["skyline", "towers", "data"],
+  "labour market": ["office-corridor", "office", "boardroom"],
+  "vacancies": ["office", "office-lounge", "workspace"],
+  "policy": ["building", "towers", "boardroom"],
+  "regulation": ["boardroom", "data", "office"],
+  "skills": ["circuit", "data", "workspace"],
+  "hiring strategy": ["boardroom", "office-lounge", "office"],
+  "workforce": ["office-lounge", "office-corridor", "office"],
+  "sectors": ["towers", "building", "data"],
+  "talent": ["office-lounge", "office", "boardroom"],
+  "compliance": ["data", "boardroom", "office"],
+};
+const SEC: Record<string, string[]> = {
+  "engineering": ["circuit", "data", "towers"],
+  "construction": ["building", "towers", "office-corridor"],
+  "manufacturing": ["energy", "circuit", "data"],
+  "medical-devices": ["data", "workspace", "office"],
+  "healthcare": ["office-corridor", "office", "building"],
+  "automotive": ["cars", "building", "workspace"],
+  "renewable-energy": ["energy", "nature", "towers"],
+  "finance": ["skyline", "data", "boardroom"],
+  "legal": ["boardroom", "building", "office"],
+  "sales-commercial": ["boardroom", "office-lounge", "workspace"],
+  "operations": ["office-corridor", "office", "workspace"],
+  "supply-chain": ["towers", "building", "energy"],
+  "electrical": ["circuit", "energy", "data"],
+  "civil": ["building", "towers", "office-corridor"],
+  "facilities-management": ["office", "building", "office-corridor"],
+  "commercial-services": ["office-lounge", "boardroom", "office"],
+};
+const pick = (arr: string[] | undefined, i: number, fb: string) =>
+  P(arr && arr.length ? arr[((i % arr.length) + arr.length) % arr.length] : fb);
+
+export function topicPhoto(category: string | null, i = 0) {
+  return pick(CAT[(category || "").toLowerCase()], i, "office");
 }
-export function sectorPhoto(slug: string, lock = 1, w = 1200, h = 800) {
-  const kw = SECTORS[slug] || "industry,business,professional";
-  return base(kw, lock, w, h);
+export function sectorPhoto(slug: string, i = 0) {
+  return pick(SEC[slug], i, "building");
 }

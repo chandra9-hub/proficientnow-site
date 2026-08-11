@@ -34,7 +34,7 @@ export default function PostArticle({ type, slug }: { type: "news" | "blog"; slu
     })();
   }, [type, slug]);
   const parsed = useMemo(() => parseBody(post?.body || ""), [post?.body]);
-  const hero = post ? (post.cover_image || topicPhoto(post.category, 1, 1400, 760)) : "";
+  const hero = post ? (post.cover_image || topicPhoto(post.category, 0)) : "";
 
   return (
     <section className="page-header">
@@ -62,7 +62,7 @@ export default function PostArticle({ type, slug }: { type: "news" | "blog"; slu
                     <div className="rich" dangerouslySetInnerHTML={{ __html: s.html }} />
                   </div>
                   <div className="art-photo">
-                    <img src={topicPhoto(post.category, i + 2, 900, 700)} alt="" loading="lazy" />
+                    <img src={topicPhoto(post.category, i + 1)} alt="" loading="lazy" />
                   </div>
                 </div>
               ))}

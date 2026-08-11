@@ -15,7 +15,7 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
 export default function SectorDetail({ params }: { params: { slug: string } }) {
   const s = sectors.find((x) => x.slug === params.slug);
   if (!s) return notFound();
-  const hero = s.image || sectorPhoto(s.slug, 1, 1400, 760);
+  const hero = s.image || sectorPhoto(s.slug, 0);
 
   return (
     <>
@@ -41,7 +41,7 @@ export default function SectorDetail({ params }: { params: { slug: string } }) {
                 <h2>{sec.title}</h2>
                 <p>{sec.body}</p>
               </div>
-              <div className="art-photo"><img src={sectorPhoto(s.slug, i + 2, 900, 700)} alt="" loading="lazy" /></div>
+              <div className="art-photo"><img src={sectorPhoto(s.slug, i + 1)} alt="" loading="lazy" /></div>
             </div>
           ))}
 
