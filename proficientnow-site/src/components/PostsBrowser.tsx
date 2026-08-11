@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { supabase, type Post } from "@/lib/supabase";
+import { topicPhoto } from "@/lib/photos";
 
 function fmtDate(iso: string | null) {
   if (!iso) return "";
@@ -57,7 +58,7 @@ export default function PostsBrowser({ type }: { type: "news" | "blog" }) {
           ) : (
             posts.map((p) => (
               <Link key={p.id} href={`/${type}/${p.slug}`} className="post-card zoom">
-                <div className="hd" style={p.cover_image ? { backgroundImage: `url(${p.cover_image})` } : undefined}>
+                <div className="hd" style={{ backgroundImage: `url(${p.cover_image || topicPhoto(p.category, 1, 800, 500)})` }}>
                   {p.category && <span className="cat">{p.category}</span>}
                 </div>
                 <div className="bd">
