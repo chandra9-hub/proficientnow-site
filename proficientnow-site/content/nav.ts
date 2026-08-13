@@ -10,5 +10,6 @@ export const navLinks = [
   { label: "Sectors", href: "/sectors" },
   { label: "Careers", href: "/careers" },
   { label: "News & Blog", href: "/news" },
+  { label: "Salary Calculator", href: "/salary-calculator" },
   { label: "Contact", href: "/contact" },
 ];

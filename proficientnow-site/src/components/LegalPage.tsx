@@ -34,7 +34,8 @@ export default function LegalPage({ doc }: { doc: Doc }) {
             <p style={{ marginTop: 18 }}>
               <Link href="/privacy" className="cardlink" style={{ marginRight: 20 }}>Privacy Policy</Link>
               <Link href="/terms" className="cardlink" style={{ marginRight: 20 }}>Terms &amp; Conditions</Link>
-              <Link href="/cookies" className="cardlink">Cookie Policy</Link>
+              <Link href="/cookies" className="cardlink" style={{ marginRight: 20 }}>Cookie Policy</Link>
+              <Link href="/gdpr" className="cardlink">GDPR &amp; Data Protection</Link>
             </p>
           </div>
         </div>

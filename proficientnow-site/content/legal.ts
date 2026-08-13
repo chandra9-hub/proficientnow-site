@@ -146,3 +146,52 @@ export const cookiePolicy: Doc = {
     ]},
   ],
 };
+
+
+export const gdprStatement: Doc = {
+  title: "GDPR & Data Protection",
+  intro:
+    "ProficientNow Ltd is committed to protecting personal data and complying with the UK General Data Protection Regulation (UK GDPR) and the Data Protection Act 2018. This statement summarises how we meet those obligations for clients, candidates and website visitors, and sets out your rights.",
+  sections: [
+    { heading: "1. Our commitment", paras: [
+      "We handle personal data lawfully, fairly and transparently. We collect only what we need, keep it accurate and secure, and retain it no longer than necessary. As a recruitment business, we also follow the Conduct of Employment Agencies and Employment Businesses Regulations 2003.",
+    ]},
+    { heading: "2. Lawful bases we rely on", paras: [
+      "Under Article 6 of the UK GDPR we process personal data on one or more of the following bases:",
+    ], bullets: [
+      "Legitimate interests — to operate our recruitment services and match candidates to roles, balanced against your rights;",
+      "Contract — where processing is necessary to provide our services to you;",
+      "Consent — where we have asked for and you have given it (which you can withdraw at any time);",
+      "Legal obligation — where the law requires us to process data.",
+    ]},
+    { heading: "3. Your rights as a data subject", paras: [
+      "The UK GDPR gives you the following rights, which you can exercise free of charge:",
+    ], bullets: [
+      "The right to be informed about how we use your data;",
+      "The right of access to the data we hold about you;",
+      "The right to rectification of inaccurate or incomplete data;",
+      "The right to erasure (the 'right to be forgotten') in certain circumstances;",
+      "The right to restrict or object to processing;",
+      "The right to data portability;",
+      "Rights in relation to automated decision-making and profiling (we do not make solely automated decisions that significantly affect you).",
+    ]},
+    { heading: "4. How to exercise your rights", paras: [
+      "To make a request, email us at info@proficientnow.co.uk. We will verify your identity and respond within one month, as required by law. There is normally no charge, though we may decline or charge for manifestly unfounded or excessive requests, as the law allows.",
+    ]},
+    { heading: "5. How long we keep data", paras: [
+      "We keep candidate records, including CVs, for up to three years from our last meaningful contact, and client and employer records for up to five years, unless a longer period is required by law. After that, data is securely deleted or anonymised.",
+    ]},
+    { heading: "6. International transfers", paras: [
+      "We operate from the UK and work with offices and partners in Europe, the United States, the United Arab Emirates and Australia. Where personal data is transferred outside the UK, we use appropriate safeguards (such as the UK's International Data Transfer Agreement or equivalent contractual clauses) so your data remains protected to UK standards.",
+    ]},
+    { heading: "7. Data security", paras: [
+      "We apply appropriate technical and organisational measures to protect personal data against loss, misuse and unauthorised access, and review them regularly. Where we use third-party processors (for example IT and hosting providers), we put written agreements in place requiring equivalent protection.",
+    ]},
+    { heading: "8. Data protection queries and complaints", paras: [
+      "For any data protection question, contact us at info@proficientnow.co.uk. If you are not satisfied with our response, you have the right to complain to the Information Commissioner's Office (ICO), the UK's data protection regulator, at ico.org.uk or by calling 0303 123 1113.",
+    ]},
+    { heading: "9. Related policies", paras: [
+      "This statement should be read alongside our Privacy Policy and Cookie Policy, which provide further detail on how we collect and use personal data.",
+    ]},
+  ],
+};
