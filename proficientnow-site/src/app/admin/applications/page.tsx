@@ -58,6 +58,23 @@ export default function ApplicationsInbox() {
     await supabase.from("applications").update({ status }).eq("id", a.id);
   }
 
+  async function deleteApp(a: App) {
+    if (!supabase) return;
+    const ok = window.confirm(
+      `Delete the application from ${a.first_name} ${a.last_name}?\n\nThis permanently removes it (and their CV) and cannot be undone.`
+    );
+    if (!ok) return;
+    if (a.cv_path) { await supabase.storage.from("cvs").remove([a.cv_path]); }
+    const { error } = await supabase.from("applications").delete().eq("id", a.id);
+    if (error) {
+      alert("Could not delete this application.\n\n" + error.message +
+        "\n\nIf this mentions permissions, add the delete policy from the setup notes in Supabase.");
+      return;
+    }
+    setApps((list) => list.filter((x) => x.id !== a.id));
+    setOpen((o) => (o === a.id ? null : o));
+  }
+
   async function downloadCV(path: string | null) {
     if (!supabase || !path) { alert("No CV attached to this application."); return; }
     const filename = path.replace(/^\d+-/, "");
@@ -106,6 +123,7 @@ export default function ApplicationsInbox() {
                       </select>
                       <button onClick={() => downloadCV(a.cv_path)} style={btn}>↓ CV</button>
                       <button onClick={() => setOpen(expanded ? null : a.id)} style={ghost}>{expanded ? "Hide" : "Details"}</button>
+                      <button onClick={() => deleteApp(a)} style={danger} title="Delete this application">Delete</button>
                     </div>
                   </div>
 
@@ -151,3 +169,4 @@ function Detail({ label, value, link }: { label: string; value: string | null; l
 
 const btn: React.CSSProperties = { background: "var(--accent)", border: 0, color: "#fff", borderRadius: 999, padding: "9px 16px", cursor: "pointer", fontSize: 13, fontWeight: 600 };
 const ghost: React.CSSProperties = { background: "var(--card)", border: "1px solid var(--cardbd)", color: "var(--heading)", borderRadius: 999, padding: "9px 16px", cursor: "pointer", fontSize: 13, fontWeight: 500 };
+const danger: React.CSSProperties = { background: "transparent", border: "1px solid rgba(255,107,107,.45)", color: "#e5484d", borderRadius: 999, padding: "9px 16px", cursor: "pointer", fontSize: 13, fontWeight: 600 };
