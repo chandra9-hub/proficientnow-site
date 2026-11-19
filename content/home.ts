@@ -19,7 +19,7 @@ export const home = {
     heading: "Generalists know a little about everything. We know everything about *your bit.*",
     paragraphs: [
       "Spreading thin across every industry is how you end up with a stack of \"close enough\" CVs and a search that drags on for months. We work the opposite way — every consultant lives inside their sector, so the shortlist is smaller, sharper and genuinely relevant.",
-      "It's pure contingency, so you only pay when someone actually starts. Our sourcing runs across time zones, which means a search is always moving — and the best people aren't refreshing job boards at 2am; they're in a network we've spent years building. And if a hire doesn't stick, we go again, backed by our 60–90 day placement guarantee.",
+      "It's pure contingency, so you only pay when someone actually starts. Our sourcing runs across time zones, which means a search is always moving — and the best people aren't refreshing job boards at 2am; they're in the network we're building. And if a hire doesn't stick, we go again, backed by our 60–90 day placement guarantee.",
     ],
     points: [
       { title: "Pure contingency", note: "Pay only when you hire" },

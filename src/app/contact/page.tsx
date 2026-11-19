@@ -36,16 +36,6 @@ export default function ContactPage() {
                   <li className="muted" style={{ fontSize: 14, paddingTop: 4 }}>{site.contact.hours}</li>
                 </ul>
               </div>
-              <div>
-                <h3 style={{ fontSize: 18 }}>Also operating in</h3>
-                <ul style={{ listStyle: "none", marginTop: 12, display: "flex", flexDirection: "column", gap: 8 }}>
-                  {site.offices.map((o) => (
-                    <li key={o.city} className="muted" style={{ fontSize: 14 }}>
-                      <span style={{ color: "var(--heading)", fontWeight: 500 }}>{o.city}</span>{o.country ? ", " + o.country : ""}
-                    </li>
-                  ))}
-                </ul>
-              </div>
             </div>
           </SectionReveal>
         </div>

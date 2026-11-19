@@ -46,6 +46,7 @@ export const organizationLd = {
   "@type": ["EmploymentAgency", "Organization"],
   "@id": ORG_ID,
   name: site.legalName,
+  legalName: site.legalName,
   alternateName: site.name,
   url: abs("/"),
   logo: { "@type": "ImageObject", url: abs("/brand/logo-light.png") },
