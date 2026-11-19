@@ -1,13 +1,10 @@
-import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
 import SectorCard from "@/components/SectorCard";
 import CTASection from "@/components/CTASection";
 import { sectors, sectorsIntro } from "@content/sectors";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Sectors we recruit for",
-  description: "Specialist recruitment across engineering, construction, manufacturing, healthcare, finance, legal, supply chain and more.",
-};
+export const metadata = pageMeta("/sectors", "Sectors We Recruit For Across the UK", "Specialist UK recruitment across 16 sectors, including engineering, construction, manufacturing, healthcare, finance, legal and supply chain.");
 
 export default function SectorsPage() {
   return (

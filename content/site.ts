@@ -6,6 +6,7 @@
 export const site = {
   name: "ProficientNow",
   legalName: "ProficientNow Ltd",
+  companyNumber: "16653249", // Companies House
   tagline: "Specialist recruitment for the roles that run your business.",
   description:
     "ProficientNow is a specialist recruitment partner placing talent across Engineering, Construction, Manufacturing, Healthcare, Finance, Legal and more. 100% contingency — no fee until you hire.",

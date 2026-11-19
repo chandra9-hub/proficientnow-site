@@ -8,10 +8,20 @@ import Emphasize from "@/components/Emphasize";
 import { home } from "@content/home";
 import { site } from "@content/site";
 import { sectors } from "@content/sectors";
+import JsonLd from "@/components/JsonLd";
+import { pageMeta, websiteLd } from "@/lib/seo";
+
+export const metadata = pageMeta(
+  "/",
+  "Specialist Recruitment Agency UK | ProficientNow",
+  "UK specialist recruitment agency for engineering, construction, manufacturing, healthcare, finance and legal roles. 100% contingency: no fee until you hire.",
+  true,
+);
 
 export default function HomePage() {
   return (
     <>
+      <JsonLd data={websiteLd} />
       <Hero />
 
       {/* STATS */}
@@ -20,7 +30,7 @@ export default function HomePage() {
           <div className="stats-grid">
             {site.stats.map((s) => (
               <div className="stat" key={s.label}>
-                <div className="num" data-to={s.value} data-suffix={s.suffix}>0</div>
+                <div className="num" data-to={s.value} data-suffix={s.suffix}>{s.value.toLocaleString("en-GB")}{s.suffix}</div>
                 <div className="lbl">{s.label}</div>
               </div>
             ))}
