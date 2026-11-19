@@ -11,13 +11,17 @@
 --     permissive policy left in place still applies. Drop those by hand.
 --
 -- Access model:
---   anon (public site)    read published jobs/posts, insert applications,
---                         upload CVs. Nothing else.
---   authenticated (admin) full CRUD on everything. ANY signed-in user is an
---                         admin, so public sign-ups MUST be disabled
---                         (Authentication > Sign In / Providers > Email >
---                         "Allow new users to sign up" off) and admin users
---                         created by hand in the dashboard.
+--   public (anon, and signed-in non-admins)
+--            read published jobs/posts, insert applications, upload CVs.
+--   admins   full CRUD on everything, but ONLY users listed in public.admins
+--            (checked by public.is_admin()). Being signed in is not enough.
+--
+-- Admin setup (after running this file):
+--   1. Disable public sign-ups: Authentication > Sign In / Providers > Email >
+--      "Allow new users to sign up" off.
+--   2. Create each admin user by hand (Authentication > Users > Add user).
+--   3. Add each admin's user id to the allowlist:
+--        insert into public.admins (user_id) values ('<auth.users.id>');
 -- =============================================================================
 
 -- keeps posts.updated_at current; the app never sets it.
@@ -28,6 +32,28 @@ begin
   return new;
 end;
 $$;
+
+-- -----------------------------------------------------------------------------
+-- admins: allowlist of auth users with admin access. RLS on with no policies,
+-- so it is only readable via is_admin() and only writable from the dashboard.
+-- -----------------------------------------------------------------------------
+create table if not exists public.admins (
+  user_id uuid primary key references auth.users (id) on delete cascade
+);
+alter table public.admins enable row level security;
+
+create or replace function public.is_admin()
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select exists (select 1 from public.admins where user_id = auth.uid());
+$$;
+
+revoke execute on function public.is_admin() from public, anon;
+grant execute on function public.is_admin() to authenticated;
 
 -- -----------------------------------------------------------------------------
 -- jobs: vacancies. Public pages filter on status = 'published'.
@@ -128,26 +154,26 @@ alter table public.applications enable row level security;
 -- jobs
 drop policy if exists "jobs: public reads published" on public.jobs;
 create policy "jobs: public reads published" on public.jobs
-  for select to anon using (status = 'published');
+  for select to anon, authenticated using (status = 'published');
 
 drop policy if exists "jobs: admin full access" on public.jobs;
 create policy "jobs: admin full access" on public.jobs
-  for all to authenticated using (true) with check (true);
+  for all to authenticated using (public.is_admin()) with check (public.is_admin());
 
 -- posts
 drop policy if exists "posts: public reads published" on public.posts;
 create policy "posts: public reads published" on public.posts
-  for select to anon using (status = 'published');
+  for select to anon, authenticated using (status = 'published');
 
 drop policy if exists "posts: admin full access" on public.posts;
 create policy "posts: admin full access" on public.posts
-  for all to authenticated using (true) with check (true);
+  for all to authenticated using (public.is_admin()) with check (public.is_admin());
 
--- applications: anon may only insert (no select, so applicants can't read
+-- applications: public may only insert (no select, so applicants can't read
 -- each other's data). New rows must start as 'Applied' against a published job.
 drop policy if exists "applications: public can apply" on public.applications;
 create policy "applications: public can apply" on public.applications
-  for insert to anon
+  for insert to anon, authenticated
   with check (
     status = 'Applied'
     and job_id in (select id from public.jobs where status = 'published')
@@ -155,7 +181,7 @@ create policy "applications: public can apply" on public.applications
 
 drop policy if exists "applications: admin full access" on public.applications;
 create policy "applications: admin full access" on public.applications
-  for all to authenticated using (true) with check (true);
+  for all to authenticated using (public.is_admin()) with check (public.is_admin());
 
 -- -----------------------------------------------------------------------------
 -- Storage: private "cvs" bucket. 10 MB limit matches content/careers.ts.
@@ -164,13 +190,15 @@ insert into storage.buckets (id, name, public, file_size_limit)
 values ('cvs', 'cvs', false, 10485760)
 on conflict (id) do update set public = false, file_size_limit = excluded.file_size_limit;
 
--- anon: upload only. No select policy, so no read, list or signed URLs.
+-- public: upload only. No select policy, so no read, list or signed URLs.
 -- The app uploads with upsert: false, so no update policy is needed either.
 drop policy if exists "cvs: public can upload" on storage.objects;
 create policy "cvs: public can upload" on storage.objects
-  for insert to anon with check (bucket_id = 'cvs');
+  for insert to anon, authenticated with check (bucket_id = 'cvs');
 
--- authenticated: full CRUD (admin downloads via signed URL and deletes CVs).
+-- admins: full CRUD (download via signed URL, delete).
 drop policy if exists "cvs: admin full access" on storage.objects;
 create policy "cvs: admin full access" on storage.objects
-  for all to authenticated using (bucket_id = 'cvs') with check (bucket_id = 'cvs');
+  for all to authenticated
+  using (bucket_id = 'cvs' and public.is_admin())
+  with check (bucket_id = 'cvs' and public.is_admin());

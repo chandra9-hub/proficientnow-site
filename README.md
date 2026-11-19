@@ -47,7 +47,10 @@ In headlines, wrap words in `*asterisks*` to render them in the accent colour.
 
 1. Create a Supabase project and copy its URL and anon key into `.env.local` (and Vercel).
 2. Review `supabase/schema.sql` against the project, then run it in the SQL Editor. It is not applied automatically.
-3. Disable public sign-ups (Authentication > Providers > Email) and create admin users by hand. Every signed-in user has full admin access.
+3. Disable public sign-ups (Authentication > Sign In / Providers > Email > "Allow new users to sign up").
+4. Create each admin user by hand, then add their user id to the allowlist:
+   `insert into public.admins (user_id) values ('<auth user id>');`
+   Only users in `public.admins` get admin access; being signed in is not enough.
 
 The anon key is exposed to the browser by design; Row Level Security is what protects the data.
 
