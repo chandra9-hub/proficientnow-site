@@ -1,16 +1,12 @@
 import Link from "next/link";
-import type { Post } from "@/lib/supabase";
+import type { Post } from "@/lib/data";
 import { topicPhoto } from "@/lib/photos";
+import { clip } from "@/lib/seo";
 
 function fmtDate(iso: string | null) {
   if (!iso) return "";
   try { return new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }); }
   catch { return ""; }
-}
-function stripHtml(html: string | null, n = 240) {
-  if (!html) return "";
-  const t = html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
-  return t.length > n ? t.slice(0, n).trimEnd() + "…" : t;
 }
 
 // Server-rendered list; `posts` is null when the backend is unreachable.
@@ -54,7 +50,7 @@ export default function PostsBrowser({ type, posts }: { type: "news" | "blog"; p
                 <div className="post-preview">
                   {p.category && <span className="cat">{p.category}</span>}
                   <h3>{p.title}</h3>
-                  <p>{stripHtml(p.body) || p.excerpt}</p>
+                  <p>{clip(p.body, 240) || p.excerpt}</p>
                   <span className="go">Read article →</span>
                 </div>
               </Link>

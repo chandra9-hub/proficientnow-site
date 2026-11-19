@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import type { Job } from "@/lib/supabase";
+import type { Job } from "@/lib/data";
 import { careers } from "@content/careers";
 
 // Jobs are fetched on the server; this only filters them. Empty/unreachable both show the empty state.
