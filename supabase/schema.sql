@@ -144,6 +144,27 @@ alter table public.applications drop constraint if exists applications_portfolio
 alter table public.applications add constraint applications_portfolio_url_http
   check (portfolio_url is null or portfolio_url ~* '^https?://') not valid;
 
+-- one application per CV file, so an applicant can't claim (and get an admin to
+-- delete) someone else's CV. Fails if the live table already has duplicates.
+create unique index if not exists applications_cv_path_key on public.applications (cv_path);
+
+-- true if cv_path is a new-format upload ("<uuid>/<filename>") that exists in
+-- the cvs bucket. Security definer because anon has no select on storage.objects;
+-- the uuid prefix requirement stops it being used to probe guessable paths.
+create or replace function public.cv_upload_exists(path text)
+returns boolean
+language sql
+stable
+security definer
+set search_path = ''
+as $$
+  select path ~ '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/[^/]+$'
+    and exists (select 1 from storage.objects o where o.bucket_id = 'cvs' and o.name = path);
+$$;
+
+revoke execute on function public.cv_upload_exists(text) from public;
+grant execute on function public.cv_upload_exists(text) to anon, authenticated;
+
 -- -----------------------------------------------------------------------------
 -- Row Level Security
 -- -----------------------------------------------------------------------------
@@ -170,13 +191,15 @@ create policy "posts: admin full access" on public.posts
   for all to authenticated using (public.is_admin()) with check (public.is_admin());
 
 -- applications: public may only insert (no select, so applicants can't read
--- each other's data). New rows must start as 'Applied' against a published job.
+-- each other's data). New rows must start as 'Applied' against a published job,
+-- and cv_path must point at a real new-format upload (see cv_upload_exists).
 drop policy if exists "applications: public can apply" on public.applications;
 create policy "applications: public can apply" on public.applications
   for insert to anon, authenticated
   with check (
     status = 'Applied'
     and job_id in (select id from public.jobs where status = 'published')
+    and (cv_path is null or public.cv_upload_exists(cv_path))
   );
 
 drop policy if exists "applications: admin full access" on public.applications;
@@ -190,11 +213,16 @@ insert into storage.buckets (id, name, public, file_size_limit)
 values ('cvs', 'cvs', false, 10485760)
 on conflict (id) do update set public = false, file_size_limit = excluded.file_size_limit;
 
--- public: upload only. No select policy, so no read, list or signed URLs.
+-- public: upload only, as "<uuid>/<filename>" (matches ApplyForm). No select
+-- policy, so no read, list or signed URLs.
 -- The app uploads with upsert: false, so no update policy is needed either.
 drop policy if exists "cvs: public can upload" on storage.objects;
 create policy "cvs: public can upload" on storage.objects
-  for insert to anon, authenticated with check (bucket_id = 'cvs');
+  for insert to anon, authenticated
+  with check (
+    bucket_id = 'cvs'
+    and name ~ '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/[^/]+$'
+  );
 
 -- admins: full CRUD (download via signed URL, delete).
 drop policy if exists "cvs: admin full access" on storage.objects;

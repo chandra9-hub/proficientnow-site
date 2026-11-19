@@ -23,9 +23,9 @@ export default function ApplyForm({ jobId, jobTitle }: { jobId: string; jobTitle
       if (file.size > careers.upload.maxSizeMB * 1024 * 1024)
         throw new Error(`Your CV is larger than ${careers.upload.maxSizeMB} MB. Please upload a smaller file.`);
 
-      // 1) upload CV to the private "cvs" bucket
+      // 1) upload CV to the private "cvs" bucket under an unguessable folder
       const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
-      const path = `${Date.now()}-${safeName}`;
+      const path = `${crypto.randomUUID()}/${safeName}`;
       const up = await supabase.storage.from("cvs").upload(path, file, { upsert: false });
       if (up.error) throw up.error;
 

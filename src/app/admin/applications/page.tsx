@@ -65,20 +65,21 @@ export default function ApplicationsInbox() {
       `Delete the application from ${a.first_name} ${a.last_name}?\n\nThis permanently removes it (and their CV) and cannot be undone.`
     );
     if (!ok) return;
-    if (a.cv_path) { await supabase.storage.from("cvs").remove([a.cv_path]); }
     const { error } = await supabase.from("applications").delete().eq("id", a.id);
     if (error) {
       alert("Could not delete this application.\n\n" + error.message +
         "\n\nIf this mentions permissions, add the delete policy from the setup notes in Supabase.");
       return;
     }
+    // cv_path is unique per application, so this file belongs only to the deleted row.
+    if (a.cv_path) { await supabase.storage.from("cvs").remove([a.cv_path]); }
     setApps((list) => list.filter((x) => x.id !== a.id));
     setOpen((o) => (o === a.id ? null : o));
   }
 
   async function downloadCV(path: string | null) {
     if (!supabase || !path) { alert("No CV attached to this application."); return; }
-    const filename = path.replace(/^\d+-/, "");
+    const filename = (path.split("/").pop() || path).replace(/^\d+-/, "");
     const { data, error } = await supabase.storage.from("cvs").createSignedUrl(path, 60, { download: filename });
     if (error || !data) { alert("Could not fetch the CV. Please try again."); return; }
     const a = document.createElement("a");
