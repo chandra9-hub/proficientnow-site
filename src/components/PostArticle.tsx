@@ -1,8 +1,5 @@
-"use client";
-
-import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { supabase, type Post } from "@/lib/supabase";
+import type { Post } from "@/lib/supabase";
 import { topicPhoto } from "@/lib/photos";
 import { safeUrl } from "@/lib/safeUrl";
 
@@ -12,40 +9,26 @@ function fmtDate(iso: string | null) {
   catch { return ""; }
 }
 type Section = { heading: string; html: string };
+// Splits the article HTML at each <h2>/<h3> so it can be laid out as alternating rows (server-safe).
 function parseBody(html: string): { intro: string; sections: Section[] } {
-  if (typeof window === "undefined") return { intro: html, sections: [] };
-  const el = document.createElement("div"); el.innerHTML = html || "";
-  let intro = ""; const sections: Section[] = []; let cur: Section | null = null;
-  el.childNodes.forEach((node) => {
-    const e = node as HTMLElement;
-    if (e.tagName === "H2" || e.tagName === "H3") { cur = { heading: e.textContent || "", html: "" }; sections.push(cur); }
-    else { const frag = (e.outerHTML ?? (node.textContent ? `<p>${node.textContent}</p>` : "")) || ""; if (cur) cur.html += frag; else intro += frag; }
+  const [intro, ...rest] = (html || "").split(/(?=<h[23][\s>])/i);
+  const sections = rest.map((chunk) => {
+    const m = chunk.match(/^<h[23][^>]*>([\s\S]*?)<\/h[23]>/i);
+    return m ? { heading: m[1], html: chunk.slice(m[0].length) } : { heading: "", html: chunk };
   });
   return { intro, sections };
 }
 
-export default function PostArticle({ type, slug }: { type: "news" | "blog"; slug: string }) {
-  const [post, setPost] = useState<Post | null>(null);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    (async () => {
-      if (!supabase) { setLoading(false); return; }
-      const { data } = await supabase.from("posts").select("*").eq("type", type).eq("slug", slug).eq("status", "published").maybeSingle();
-      setPost((data as Post) || null); setLoading(false);
-    })();
-  }, [type, slug]);
-  const parsed = useMemo(() => parseBody(post?.body || ""), [post?.body]);
-  const hero = post ? (post.cover_image || topicPhoto(post.category, 0)) : "";
+export default function PostArticle({ type, post }: { type: "news" | "blog"; post: Post }) {
+  const parsed = parseBody(post.body || "");
+  const hero = post.cover_image || topicPhoto(post.category, 0);
 
   return (
     <section className="page-header">
       <div className="container-x">
         <div className="article-page">
           <Link href={`/${type}`} className="backlink">← Back to {type === "news" ? "News" : "Blog"}</Link>
-          {loading ? (<p className="muted">Loading…</p>) : !post ? (
-            <><h1>Article not found</h1><p className="muted" style={{ marginTop: 12 }}>This article may have been moved or unpublished.</p></>
-          ) : (
-            <>
+          <>
               <div className="article-head">
                 {post.category && <div className="cat">{post.category}</div>}
                 <h1>{post.title}</h1>
@@ -59,7 +42,7 @@ export default function PostArticle({ type, slug }: { type: "news" | "blog"; slu
               {parsed.sections.map((s, i) => (
                 <div className={`art-row ${i % 2 === 1 ? "flip" : ""}`} key={i}>
                   <div className="art-text">
-                    <h2>{s.heading}</h2>
+                    <h2 dangerouslySetInnerHTML={{ __html: s.heading }} />
                     <div className="rich" dangerouslySetInnerHTML={{ __html: s.html }} />
                   </div>
                   <div className="art-photo">
@@ -85,8 +68,7 @@ export default function PostArticle({ type, slug }: { type: "news" | "blog"; slu
                   <Link href="/contact" className="btn-primary">Start a search →</Link>
                 </div>
               </div>
-            </>
-          )}
+          </>
         </div>
       </div>
     </section>

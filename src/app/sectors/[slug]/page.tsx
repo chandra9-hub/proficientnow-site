@@ -1,33 +1,47 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import SectorIcon from "@/components/SectorIcon";
 import CTASection from "@/components/CTASection";
 import { sectors } from "@content/sectors";
 import { sectorPhoto } from "@/lib/photos";
+import JsonLd from "@/components/JsonLd";
+import { breadcrumbLd, fitDescription, pageMeta, serviceLd } from "@/lib/seo";
 
+export const dynamicParams = false;
 export function generateStaticParams() { return sectors.map((s) => ({ slug: s.slug })); }
 export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
   const s = sectors.find((x) => x.slug === params.slug);
-  return s ? { title: `${s.name} recruitment`, description: s.intro.slice(0, 150) } : { title: "Sector" };
+  if (!s) return {};
+  const label = s.seoName || s.name;
+  return pageMeta(
+    `/sectors/${s.slug}`,
+    `${label} Recruitment Agency UK`,
+    fitDescription(`Specialist ${label.toLowerCase()} recruitment agency for UK employers.`, s.blurb, "100% contingency: no fee until you hire."),
+  );
 }
 
 export default function SectorDetail({ params }: { params: { slug: string } }) {
   const s = sectors.find((x) => x.slug === params.slug);
   if (!s) return notFound();
   const hero = s.image || sectorPhoto(s.slug, 0);
+  const label = s.seoName || s.name;
+  const path = `/sectors/${s.slug}`;
 
   return (
     <>
+      <JsonLd data={breadcrumbLd([{ name: "Home", path: "/" }, { name: "Sectors", path: "/sectors" }, { name: s.name, path }])} />
+      <JsonLd data={serviceLd(`${label} recruitment`, path)} />
       <section className="page-header" style={{ paddingBottom: 0 }}>
         <div className="secmark">{s.name}</div>
         <div className="container-x">
           <Link href="/sectors" className="backlink">← All sectors</Link>
           <div className="sector-hero">
             <div className="ico" style={{ width: 60, height: 60, borderRadius: 16 }}><SectorIcon name={s.icon} /></div>
-            <div><p className="eyebrow">Sector focus</p><h1>{s.name}</h1></div>
+            <div><p className="eyebrow">Sector focus</p><h1>{label} recruitment</h1></div>
           </div>
-          <img className="article-hero" src={hero} alt={`${s.name} recruitment`} loading="lazy" style={{ marginTop: 28 }} />
+          <Image className="article-hero" src={hero} alt={`${label} recruitment`} width={1400} height={700} sizes="(max-width: 1100px) 100vw, 1040px" priority style={{ marginTop: 28 }} />
           <p className="article-lead" style={{ marginTop: 26 }}>{s.intro}</p>
         </div>
       </section>
@@ -41,7 +55,7 @@ export default function SectorDetail({ params }: { params: { slug: string } }) {
                 <h2>{sec.title}</h2>
                 <p>{sec.body}</p>
               </div>
-              <div className="art-photo"><img src={sectorPhoto(s.slug, i + 1)} alt="" loading="lazy" /></div>
+              <div className="art-photo"><Image src={sectorPhoto(s.slug, i + 1)} alt="" width={700} height={560} sizes="(max-width: 1000px) 100vw, 500px" /></div>
             </div>
           ))}
 

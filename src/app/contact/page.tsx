@@ -1,20 +1,17 @@
-import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
 import SectionReveal from "@/components/SectionReveal";
 import ContactForm from "@/components/ContactForm";
 import { site } from "@content/site";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description: "Get in touch with ProficientNow. Whether you're hiring or exploring a career move, we respond within one business day.",
-};
+export const metadata = pageMeta("/contact", "Contact Our UK Recruitment Team", "Contact ProficientNow in London on +44 20 4529 1462 or info@proficientnow.co.uk. Hiring or exploring a move? We respond within one business day.");
 
 export default function ContactPage() {
   return (
     <>
       <PageHeader eyebrow="Contact" headline="Let's talk about *your next hire.*" subhead="Whether you're hiring or exploring a career move, we respond within one business day." />
       <section className="pad" style={{ paddingTop: 40 }}>
-        <div className="container-x" style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 48 }}>
+        <div className="container-x contact-grid">
           <SectionReveal>
             <div className="panel">
               <h2 style={{ fontSize: 24 }}>Send us a message</h2>

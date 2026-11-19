@@ -22,7 +22,7 @@ export default function Navbar() {
           <ThemeToggle />
           <Link href="/contact" className="navbtn">Start a search</Link>
         </div>
-        <button onClick={() => setOpen(v => !v)} aria-label="Menu" className="mobile-only" style={{ background: "none", border: 0, cursor: "pointer" }}>
+        <button onClick={() => setOpen(v => !v)} aria-label="Menu" aria-expanded={open} className="mobile-only" style={{ background: "none", border: 0, cursor: "pointer", padding: "14px 11px", flexShrink: 0 }}>
           <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
             <span style={{ width: 22, height: 2, background: "var(--ink)", display: "block" }} />
             <span style={{ width: 22, height: 2, background: "var(--ink)", display: "block" }} />

@@ -3,8 +3,7 @@
 import { useState } from "react";
 import { site } from "@content/site";
 
-// Phase 1 form: opens the visitor's email app pre-filled. Phase 3 will store
-// submissions in the database instead.
+// Opens the visitor's email app pre-filled; a later phase will store submissions instead.
 export default function ContactForm() {
   const [sent, setSent] = useState(false);
 
@@ -24,23 +23,23 @@ export default function ContactForm() {
   return (
     <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
       <div className="grid-2" style={{ gap: 16 }}>
-        <div><label className="label">First name *</label><input name="firstName" required className="field" /></div>
-        <div><label className="label">Last name *</label><input name="lastName" required className="field" /></div>
+        <div><label className="label" htmlFor="cf-first">First name *</label><input id="cf-first" name="firstName" autoComplete="given-name" required className="field" /></div>
+        <div><label className="label" htmlFor="cf-last">Last name *</label><input id="cf-last" name="lastName" autoComplete="family-name" required className="field" /></div>
       </div>
       <div className="grid-2" style={{ gap: 16 }}>
-        <div><label className="label">Email *</label><input type="email" name="email" required className="field" /></div>
-        <div><label className="label">Phone</label><input name="phone" className="field" /></div>
+        <div><label className="label" htmlFor="cf-email">Email *</label><input id="cf-email" type="email" name="email" autoComplete="email" required className="field" /></div>
+        <div><label className="label" htmlFor="cf-phone">Phone</label><input id="cf-phone" type="tel" name="phone" autoComplete="tel" className="field" /></div>
       </div>
       <div>
-        <label className="label">I&apos;m interested in *</label>
-        <select name="interest" required className="field" defaultValue="">
+        <label className="label" htmlFor="cf-interest">I&apos;m interested in *</label>
+        <select id="cf-interest" name="interest" required className="field" defaultValue="">
           <option value="" disabled>Select one</option>
           <option>We need to hire</option>
           <option>I&apos;m looking for a new role</option>
           <option>General enquiry</option>
         </select>
       </div>
-      <div><label className="label">Message</label><textarea name="message" rows={5} className="field" /></div>
+      <div><label className="label" htmlFor="cf-message">Message</label><textarea id="cf-message" name="message" rows={5} className="field" /></div>
       <button type="submit" className="btn-primary" style={{ alignSelf: "flex-start", border: 0, cursor: "pointer" }}>
         Send message <span aria-hidden>→</span>
       </button>

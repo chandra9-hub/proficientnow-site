@@ -1,10 +1,18 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import Link from "next/link";
-import { supabase, type Job } from "@/lib/supabase";
 import ApplyForm from "@/components/ApplyForm";
+import { getJob } from "@/lib/data";
+import { clip, pageMeta } from "@/lib/seo";
+
+export const revalidate = 300;
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const job = await getJob(params.slug);
+  if (!job) return {};
+  const where = job.location ? ` in ${job.location}` : "";
+  return pageMeta(`/careers/${job.slug}`, `${job.title}${where}`, clip(job.description) || `Apply for ${job.title}${where} with ProficientNow, a specialist UK recruitment agency.`);
+}
 
 function Block({ title, text }: { title: string; text: string | null }) {
   if (!text) return null;
@@ -16,32 +24,9 @@ function Block({ title, text }: { title: string; text: string | null }) {
   );
 }
 
-export default function JobDetailPage() {
-  const params = useParams();
-  const slug = String(params.slug || "");
-  const [job, setJob] = useState<Job | null>(null);
-  const [state, setState] = useState<"loading" | "found" | "missing">("loading");
-
-  useEffect(() => {
-    let active = true;
-    (async () => {
-      if (!supabase) { setState("missing"); return; }
-      const { data } = await supabase.from("jobs").select("*").eq("slug", slug).eq("status", "published").maybeSingle();
-      if (!active) return;
-      if (data) { setJob(data as Job); setState("found"); } else { setState("missing"); }
-    })();
-    return () => { active = false; };
-  }, [slug]);
-
-  if (state === "loading") return <div style={{ padding: "180px 0", textAlign: "center" }} className="muted">Loading…</div>;
-
-  if (state === "missing" || !job)
-    return (
-      <div style={{ padding: "180px 0", textAlign: "center" }} className="container-x">
-        <h1 style={{ fontSize: 34 }}>Role not found</h1>
-        <p className="muted" style={{ marginTop: 12 }}>This role may have closed. <Link href="/careers" className="accent">See all open roles →</Link></p>
-      </div>
-    );
+export default async function JobDetailPage({ params }: { params: { slug: string } }) {
+  const job = await getJob(params.slug);
+  if (!job) notFound();
 
   const hasDetails = !!(job.description || job.responsibilities || job.requirements || job.benefits || job.working_hours);
 

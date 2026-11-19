@@ -1,8 +1,5 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import Link from "next/link";
-import { supabase, type Post } from "@/lib/supabase";
+import type { Post } from "@/lib/supabase";
 import { topicPhoto } from "@/lib/photos";
 
 function fmtDate(iso: string | null) {
@@ -16,22 +13,8 @@ function stripHtml(html: string | null, n = 240) {
   return t.length > n ? t.slice(0, n).trimEnd() + "…" : t;
 }
 
-export default function PostsBrowser({ type }: { type: "news" | "blog" }) {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    (async () => {
-      if (!supabase) { setLoading(false); return; }
-      setLoading(true);
-      const { data } = await supabase.from("posts").select("*")
-        .eq("type", type).eq("status", "published")
-        .order("published_at", { ascending: false });
-      setPosts((data as Post[]) || []);
-      setLoading(false);
-    })();
-  }, [type]);
-
+// Server-rendered list; `posts` is null when the backend is unreachable.
+export default function PostsBrowser({ type, posts }: { type: "news" | "blog"; posts: Post[] | null }) {
   const heading = type === "news" ? "News & insights" : "Blog";
   const sub = type === "news"
     ? "The latest UK labour-market news and hiring insight from the ProficientNow team."
@@ -51,10 +34,11 @@ export default function PostsBrowser({ type }: { type: "news" | "blog" }) {
         </div>
 
         <div className="post-grid-3" style={{ padding: "40px 0 90px" }}>
-          {loading ? (
-            <p className="muted">Loading…</p>
-          ) : posts.length === 0 ? (
-            <p className="muted">No {type === "news" ? "news" : "blog posts"} yet — check back soon.</p>
+          {!posts?.length ? (
+            <p className="muted">
+              No {type === "news" ? "news" : "blog posts"} right now. Check back soon, or{" "}
+              <Link href="/contact" className="accent">contact us</Link> to talk about your hiring plans.
+            </p>
           ) : (
             posts.map((p) => (
               <Link key={p.id} href={`/${type}/${p.slug}`} className="post-card zoom">

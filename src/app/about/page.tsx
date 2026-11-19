@@ -1,13 +1,10 @@
-import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
 import SectionReveal from "@/components/SectionReveal";
 import CTASection from "@/components/CTASection";
 import { about } from "@content/about";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "About us",
-  description: "ProficientNow is a specialist recruitment firm built around sector depth, aligned incentives and quality over volume.",
-};
+export const metadata = pageMeta("/about", "About Our Specialist UK Recruitment Agency", "ProficientNow Ltd is a London-registered specialist recruitment agency built on sector depth, contingency-only fees and quality shortlists over CV volume.");
 
 export default function AboutPage() {
   return (

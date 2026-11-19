@@ -1,17 +1,16 @@
-import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
 import ServiceCard from "@/components/ServiceCard";
 import CTASection from "@/components/CTASection";
 import { services, servicesIntro } from "@content/services";
+import JsonLd from "@/components/JsonLd";
+import { breadcrumbLd, pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Services",
-  description: "Permanent recruitment, contract staffing, executive search, RPO and international recruitment — all on a contingency basis.",
-};
+export const metadata = pageMeta("/services", "Recruitment Services for UK Employers", "Permanent recruitment, contract staffing, executive search, RPO and international recruitment for UK employers, all on a contingency basis.");
 
 export default function ServicesPage() {
   return (
     <>
+      <JsonLd data={breadcrumbLd([{ name: "Home", path: "/" }, { name: "Services", path: "/services" }])} />
       <PageHeader eyebrow={servicesIntro.eyebrow} headline={servicesIntro.headline} subhead={servicesIntro.subhead} />
       <section className="pad" style={{ paddingTop: 40 }}>
         <div className="container-x">
