@@ -1,5 +1,5 @@
 // SECTORS — list + full detail pages at /sectors/<slug>. Edit wording freely.
-// Optional: add  image: "https://..."  to a sector to use a real photo instead of the illustration.
+// Optional: add  image: "/photos/<file>.jpg"  (a file in public/) to override the default sector photo.
 
 export const sectorsIntro = {
   eyebrow: "Our sectors",
@@ -9,7 +9,7 @@ export const sectorsIntro = {
 };
 
 export type SectorSection = { title: string; body: string };
-export type Sector = { name: string; icon: string; slug: string; blurb: string; intro: string; image?: string; image2?: string; sections: SectorSection[]; certifications: string[] };
+export type Sector = { name: string; icon: string; slug: string; blurb: string; intro: string; seoName?: string; image?: string; sections: SectorSection[]; certifications: string[] };
 
 export const sectors: Sector[] = [
   {
@@ -24,8 +24,6 @@ export const sectors: Sector[] = [
       { title: "How to grow in this field", body: "To progress, work steadily toward chartership and build a track record of delivered projects rather than just technical breadth. Add design-software, BIM and sustainability competencies to your core discipline, and develop the communication skills that separate senior engineers from technical specialists. Keeping your professional-body membership current signals commitment to employers." },
     ],
     certifications: ["Chartered/Incorporated status (CEng / IEng) via IMechE, ICE or IET", "An Engineering Council–accredited degree", "Project qualifications (APM PMQ / PRINCE2)", "CAD / BIM proficiency"],
-    image: "https://loremflickr.com/1000/750/engineering,machinery?lock=41",
-    image2: "https://loremflickr.com/1000/750/engineering,machinery?lock=1041",
     },
   {
     name: "Construction", icon: "construction", slug: "construction",
@@ -39,8 +37,6 @@ export const sectors: Sector[] = [
       { title: "How to grow in this field", body: "Build broad on-site experience early, then work steadily toward chartered status with the RICS or CIOB. Add MMC, BIM and sustainability knowledge to stand out, and keep your safety qualifications current. Strong commercial awareness — understanding contracts, cost and risk — accelerates progression into management." },
     ],
     certifications: ["CSCS card", "SMSTS / SSSTS site-management certificates", "MRICS (RICS) or MCIOB (CIOB)", "NEC / JCT contract knowledge", "BIM competency"],
-    image: "https://loremflickr.com/1000/750/construction,crane?lock=42",
-    image2: "https://loremflickr.com/1000/750/construction,crane?lock=1042",
     },
   {
     name: "Manufacturing", icon: "manufacturing", slug: "manufacturing",
@@ -54,8 +50,6 @@ export const sectors: Sector[] = [
       { title: "How to grow in this field", body: "Add Lean/Six Sigma, automation exposure and quality-systems knowledge to your production experience. Develop the data and digital skills needed to run modern lines, and build leadership capability early. A recognised health-and-safety qualification is expected at supervisory level and above." },
     ],
     certifications: ["Lean Six Sigma (Green / Black Belt)", "IOSH / NEBOSH health & safety", "ISO 9001 quality systems", "Relevant engineering qualification"],
-    image: "https://loremflickr.com/1000/750/factory,manufacturing?lock=43",
-    image2: "https://loremflickr.com/1000/750/factory,manufacturing?lock=1043",
     },
   {
     name: "Medical Devices", icon: "medical", slug: "medical-devices",
@@ -69,8 +63,6 @@ export const sectors: Sector[] = [
       { title: "How to grow in this field", body: "Build regulatory expertise (UKCA, EU MDR, FDA) and quality-systems knowledge (ISO 13485) alongside your technical or life-science background. Understanding the full product lifecycle — from design controls to post-market — makes you far more valuable. Staying current with fast-moving regulation is essential." },
     ],
     certifications: ["ISO 13485 quality systems", "Regulatory affairs certification (RAPS / TOPRA)", "Quality auditing (e.g. lead auditor)", "A relevant life-science or engineering degree"],
-    image: "https://loremflickr.com/1000/750/laboratory,medical?lock=44",
-    image2: "https://loremflickr.com/1000/750/laboratory,medical?lock=1044",
     },
   {
     name: "Healthcare", icon: "health", slug: "healthcare",
@@ -84,8 +76,6 @@ export const sectors: Sector[] = [
       { title: "How to grow in this field", body: "Keep your professional registration current and specialise where you can, as specialists are in the shortest supply. Add leadership, management or digital-health skills to open up senior routes. Continuing professional development is both expected and genuinely valued by employers." },
     ],
     certifications: ["Professional registration (NMC / GMC / HCPC as relevant)", "Safeguarding training", "Specialty / advanced-practice accreditations", "Leadership & management development"],
-    image: "https://loremflickr.com/1000/750/hospital,building?lock=45",
-    image2: "https://loremflickr.com/1000/750/hospital,building?lock=1045",
     },
   {
     name: "Automotive", icon: "automotive", slug: "automotive",
@@ -99,8 +89,6 @@ export const sectors: Sector[] = [
       { title: "How to grow in this field", body: "Build electrification, software and systems-engineering skills to stay ahead of the transition. Functional-safety knowledge (ISO 26262) is increasingly expected in engineering roles. A willingness to keep retraining is one of the most valuable traits in this sector." },
     ],
     certifications: ["Relevant engineering qualification", "EV / hybrid training (IMI)", "Functional safety (ISO 26262)", "Lean Six Sigma"],
-    image: "https://loremflickr.com/1000/750/car,factory?lock=46",
-    image2: "https://loremflickr.com/1000/750/car,factory?lock=1046",
     },
   {
     name: "Renewable Energy", icon: "energy", slug: "renewable-energy",
@@ -114,8 +102,6 @@ export const sectors: Sector[] = [
       { title: "How to grow in this field", body: "Build renewables project or grid experience and the relevant safety and technical certifications. Transferable skills from oil-and-gas, utilities or construction are in demand as the sector scales. Willingness to work on-site or offshore can significantly widen your options." },
     ],
     certifications: ["Relevant engineering degree", "GWO (Global Wind Organisation) training", "NEBOSH health & safety", "Project management (APM / PRINCE2)"],
-    image: "https://loremflickr.com/1000/750/wind,turbine?lock=47",
-    image2: "https://loremflickr.com/1000/750/wind,turbine?lock=1047",
     },
   {
     name: "Finance", icon: "finance", slug: "finance",
@@ -129,8 +115,6 @@ export const sectors: Sector[] = [
       { title: "How to grow in this field", body: "Qualify (ACA/ACCA/CIMA), then build systems fluency and commercial business-partnering skills. Developing data and analytics capability sets you apart from purely technical accountants. Communication and influencing skills increasingly determine who reaches the top." },
     ],
     certifications: ["ACA (ICAEW)", "ACCA", "CIMA", "CFA (for investment / analysis roles)"],
-    image: "https://loremflickr.com/1000/750/skyscraper,finance?lock=48",
-    image2: "https://loremflickr.com/1000/750/skyscraper,finance?lock=1048",
     },
   {
     name: "Legal", icon: "legal", slug: "legal",
@@ -144,8 +128,6 @@ export const sectors: Sector[] = [
       { title: "How to grow in this field", body: "Qualify as a solicitor (via the SQE route) and specialise in a growth area such as data protection or regulatory. Building commercial awareness alongside legal expertise is what employers value most. Relevant compliance certifications can accelerate a move into that field." },
     ],
     certifications: ["Qualified solicitor (SRA / SQE)", "Data-protection certification (e.g. CIPP/E)", "Compliance certification (ICA)", "Commercial-contracts experience"],
-    image: "https://loremflickr.com/1000/750/courthouse,architecture?lock=49",
-    image2: "https://loremflickr.com/1000/750/courthouse,architecture?lock=1049",
     },
   {
     name: "Sales & Commercial", icon: "sales", slug: "sales-commercial",
@@ -159,8 +141,6 @@ export const sectors: Sector[] = [
       { title: "How to grow in this field", body: "Build a measurable track record, CRM and data fluency, and genuine sector expertise. Understanding your customers' industry as well as your own product sets you apart. Consistent, evidenced performance is what opens the door to leadership roles." },
     ],
     certifications: ["A strong, measurable sales track record", "CRM proficiency (e.g. Salesforce / HubSpot)", "Recognised sales methodology training", "Sector / domain knowledge"],
-    image: "https://loremflickr.com/1000/750/office,building?lock=50",
-    image2: "https://loremflickr.com/1000/750/office,building?lock=1050",
     },
   {
     name: "Operations", icon: "operations", slug: "operations",
@@ -174,8 +154,6 @@ export const sectors: Sector[] = [
       { title: "How to grow in this field", body: "Build Lean/Six Sigma, data and leadership capabilities to progress into senior operations roles. Experience delivering measurable improvement is what employers look for. Strong people-leadership skills separate the best operations managers from the rest." },
     ],
     certifications: ["Lean Six Sigma", "Project management (APM / PRINCE2)", "Relevant operations / business degree", "Data & analytics skills"],
-    image: "https://loremflickr.com/1000/750/warehouse,industry?lock=51",
-    image2: "https://loremflickr.com/1000/750/warehouse,industry?lock=1051",
     },
   {
     name: "Supply Chain", icon: "supplychain", slug: "supply-chain",
@@ -189,8 +167,6 @@ export const sectors: Sector[] = [
       { title: "How to grow in this field", body: "Build planning and analytics skills alongside recognised professional qualifications. Understanding both the commercial and operational sides of the chain makes you more valuable. Sustainability knowledge is increasingly a differentiator." },
     ],
     certifications: ["CIPS (procurement)", "CILT (logistics & transport)", "APICS / ASCM (planning)", "Data & analytics skills"],
-    image: "https://loremflickr.com/1000/750/logistics,warehouse?lock=52",
-    image2: "https://loremflickr.com/1000/750/logistics,warehouse?lock=1052",
     },
   {
     name: "Electrical", icon: "electrical", slug: "electrical",
@@ -204,11 +180,9 @@ export const sectors: Sector[] = [
       { title: "How to grow in this field", body: "Gain broad HV/LV experience and the relevant qualifications, then work toward chartership. Keeping your wiring-regulations knowledge current is essential. Adding renewables or controls experience widens your options considerably." },
     ],
     certifications: ["18th Edition wiring regs (BS 7671)", "ECS / JIB card", "Relevant engineering qualification", "CEng / IEng (IET)"],
-    image: "https://loremflickr.com/1000/750/powerlines,electricity?lock=53",
-    image2: "https://loremflickr.com/1000/750/powerlines,electricity?lock=1053",
     },
   {
-    name: "Civil", icon: "civil", slug: "civil",
+    name: "Civil", seoName: "Civil Engineering", icon: "civil", slug: "civil",
     blurb: "Civil and infrastructure engineers for major projects.",
     intro: "Civil engineering demand is underpinned by long-term investment in transport, water and infrastructure. Major national programmes provide a stable, multi-year pipeline of work. For experienced civil engineers, that means consistent opportunities across the UK.",
     sections: [
@@ -219,8 +193,6 @@ export const sectors: Sector[] = [
       { title: "How to grow in this field", body: "Build design and project experience and work steadily toward chartership with the ICE. Adding BIM and digital-delivery skills strengthens your prospects. Broad experience across project stages accelerates progression." },
     ],
     certifications: ["CEng / IEng (ICE)", "CSCS card", "NEC contract knowledge", "An accredited civil-engineering degree"],
-    image: "https://loremflickr.com/1000/750/bridge,infrastructure?lock=54",
-    image2: "https://loremflickr.com/1000/750/bridge,infrastructure?lock=1054",
     },
   {
     name: "Facilities Management", icon: "facilities", slug: "facilities-management",
@@ -234,8 +206,6 @@ export const sectors: Sector[] = [
       { title: "How to grow in this field", body: "Pursue IWFM membership and build technical and health-and-safety qualifications. Developing energy and sustainability knowledge sets you apart. Broad experience across hard and soft services widens your options." },
     ],
     certifications: ["IWFM qualifications", "IOSH / NEBOSH", "Relevant technical (M&E) certifications", "Energy-management knowledge"],
-    image: "https://loremflickr.com/1000/750/building,architecture?lock=55",
-    image2: "https://loremflickr.com/1000/750/building,architecture?lock=1055",
     },
   {
     name: "Commercial Services", icon: "commercial", slug: "commercial-services",
@@ -249,7 +219,5 @@ export const sectors: Sector[] = [
       { title: "How to grow in this field", body: "Build transferable and digital skills alongside genuine sector knowledge. Adaptability and a willingness to learn new systems are what employers prize most. Relevant professional qualifications help you stand out in a crowded field." },
     ],
     certifications: ["Role-relevant professional qualifications", "Digital & data skills", "Project or process certifications", "Sector knowledge"],
-    image: "https://loremflickr.com/1000/750/skyscraper,office?lock=56",
-    image2: "https://loremflickr.com/1000/750/skyscraper,office?lock=1056",
     },
 ];
