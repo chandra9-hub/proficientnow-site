@@ -82,13 +82,13 @@ export const services = [
     slug: "international-recruitment",
     title: "International recruitment",
     summary:
-      "Cross-border sourcing for hard-to-fill roles, backed by offices across multiple regions.",
+      "Cross-border sourcing for hard-to-fill roles.",
     benefits: [
       "Round-the-clock sourcing across time zones",
       "Local market intelligence",
       "Compliance-aware relocation support",
     ],
     process:
-      "We tap networks in multiple regions to find talent locally or globally, wherever the best fit sits.",
+      "We source talent locally or globally, wherever the best fit sits.",
   },
 ];

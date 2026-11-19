@@ -108,7 +108,7 @@ section{position:relative;z-index:2}
 
 /* stats */
 .stats{position:relative;padding:20px 0 30px}
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:36px}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:36px}
 .stat .num{font-family:var(--font-display);font-weight:800;font-size:54px;color:var(--ink);line-height:1}
 .stat .lbl{font-size:14px;color:var(--muted);margin-top:10px}
 

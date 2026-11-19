@@ -3,9 +3,11 @@
 // Edit anything here in plain English. No coding needed.
 // =============================================================================
 
+import { sectors } from "./sectors";
+
 export const site = {
   name: "ProficientNow",
-  legalName: "ProficientNow Ltd",
+  legalName: "PROFICIENTNOW LTD",
   companyNumber: "16653249", // Companies House
   tagline: "Specialist recruitment for the roles that run your business.",
   description:
@@ -18,7 +20,7 @@ export const site = {
     phone: "+44 20 4529 1462",
     phoneHref: "tel:+442045291462",
     address: {
-      line1: "71–75 Shelton Street",
+      line1: "71-75 Shelton Street",
       line2: "",
       city: "London",
       postcode: "WC2H 9JQ",
@@ -27,27 +29,12 @@ export const site = {
     hours: "Monday–Friday, 9:00am–6:00pm (GMT)",
   },
 
-  // ---- Also operating in (cities only; UK is the head office) ----
-  offices: [
-    { city: "London", country: "United Kingdom" },
-    { city: "Dubai", country: "United Arab Emirates" },
-    { city: "Chicago", country: "United States" },
-    { city: "Victoria", country: "Australia" },
-    { city: "Europe", country: "" },
-  ],
+  registeredOffice: "71-75 Shelton Street, Covent Garden, London WC2H 9JQ",
 
-  socials: {
-    linkedin: "https://www.linkedin.com/company/proficientnow-inc/",
-    facebook: "#",
-    twitter: "#",
-    instagram: "#",
-  },
-
-  // ---- Headline stats (all verified/real for the business). ----
+  // ---- Headline points (factual only; no unverifiable numbers). ----
   stats: [
-    { value: 1000, suffix: "+", label: "Clients served" },
     { value: 100, suffix: "%", label: "Contingency — no fee until you hire" },
-    { value: 4, suffix: "×", label: "Year-on-year growth" },
+    { value: sectors.length, suffix: "", label: "Specialist sectors covered" },
     { value: 1, suffix: " day", label: "Response time (guaranteed)" },
   ],
 };

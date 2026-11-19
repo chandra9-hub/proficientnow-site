@@ -49,6 +49,7 @@ export default function Footer() {
       <div className="foot-bottom">
         <div className="container-x">
           <p>© {year} {site.legalName}. All rights reserved.</p>
+          <p style={{ flexBasis: "100%" }}>{site.legalName} · Registered in England &amp; Wales · Company No. {site.companyNumber} · Registered office: {site.registeredOffice}</p>
           <div className="legal">
             <Link href="/privacy">Privacy Policy</Link>
             <Link href="/terms">Terms &amp; Conditions</Link>

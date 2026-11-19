@@ -14,7 +14,7 @@ export const legalMeta = {
   validUntil: "10 August 2027",
   company: "ProficientNow Ltd",
   email: "info@proficientnow.co.uk",
-  addressLine: "71–75 Shelton Street, London, WC2H 9JQ, United Kingdom",
+  addressLine: "71-75 Shelton Street, London, WC2H 9JQ, United Kingdom",
 };
 
 type Section = { heading: string; paras: string[]; bullets?: string[] };
@@ -26,7 +26,7 @@ export const privacyPolicy: Doc = {
     "This policy explains how ProficientNow Ltd collects, uses and protects personal information about the people we work with — whether you are a client, a candidate, or simply visiting our website. We are committed to handling your information lawfully, fairly and transparently in line with UK data protection law.",
   sections: [
     { heading: "1. Who we are", paras: [
-      "ProficientNow Ltd (\"we\", \"us\", \"our\") is a specialist recruitment company registered in England and Wales. For any privacy question you can contact us at info@proficientnow.co.uk or by post at 71–75 Shelton Street, London, WC2H 9JQ. We are the \"data controller\" for the personal information described in this policy.",
+      "ProficientNow Ltd (\"we\", \"us\", \"our\") is a specialist recruitment company registered in England and Wales. For any privacy question you can contact us at info@proficientnow.co.uk or by post at 71-75 Shelton Street, London, WC2H 9JQ. We are the \"data controller\" for the personal information described in this policy.",
     ]},
     { heading: "2. Who this policy covers", paras: [
       "This policy applies to everyone we hold information about, including:",
@@ -52,7 +52,7 @@ export const privacyPolicy: Doc = {
       "We do not sell your personal information to anyone.",
     ]},
     { heading: "7. International transfers", paras: [
-      "We operate from the UK and also work through offices and partners in Europe, the United States, the United Arab Emirates and Australia. Where your information is transferred outside the UK, we put appropriate safeguards in place (such as approved contractual clauses) so it remains protected to UK standards.",
+      "We operate from the UK. Where your information is transferred outside the UK, we put appropriate safeguards in place (such as approved contractual clauses) so it remains protected to UK standards.",
     ]},
     { heading: "8. How long we keep it", paras: [
       "We keep personal information only for as long as we need it. As a general rule we retain candidate records, including CVs, for up to three years from our last meaningful contact, and client and employer records for up to five years, unless a longer period is required by law. After that, information is securely deleted or anonymised.",
@@ -182,7 +182,7 @@ export const gdprStatement: Doc = {
       "We keep candidate records, including CVs, for up to three years from our last meaningful contact, and client and employer records for up to five years, unless a longer period is required by law. After that, data is securely deleted or anonymised.",
     ]},
     { heading: "6. International transfers", paras: [
-      "We operate from the UK and work with offices and partners in Europe, the United States, the United Arab Emirates and Australia. Where personal data is transferred outside the UK, we use appropriate safeguards (such as the UK's International Data Transfer Agreement or equivalent contractual clauses) so your data remains protected to UK standards.",
+      "We operate from the UK. Where personal data is transferred outside the UK, we use appropriate safeguards (such as the UK's International Data Transfer Agreement or equivalent contractual clauses) so your data remains protected to UK standards.",
     ]},
     { heading: "7. Data security", paras: [
       "We apply appropriate technical and organisational measures to protect personal data against loss, misuse and unauthorised access, and review them regularly. Where we use third-party processors (for example IT and hosting providers), we put written agreements in place requiring equivalent protection.",

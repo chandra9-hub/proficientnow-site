@@ -34,27 +34,9 @@ export const about = {
     },
   ],
 
-  timeline: {
-    eyebrow: "Our journey",
-    heading: "From a single office to a global operation.",
-    milestones: [
-      { year: "2021", title: "Founded", body: "ProficientNow launches with one conviction: specialist recruitment deserves a dedicated firm, not a side desk." },
-      { year: "2022", title: "First placements delivered", body: "Signed our first direct-hire agreements and proved the model — clients pay only when they hire, and they hire faster." },
-      { year: "2023", title: "Five global offices", body: "Expanded across multiple time zones so sourcing never stops." },
-      { year: "2024", title: "4× growth year-on-year", body: "Quadrupled output and deepened coverage across every core sector." },
-      { year: "2025", title: "Network milestone", body: "Crossed thousands of companies served, backed by a growing proprietary candidate database." },
-      { year: "2026", title: "Scaling with intent", body: "Today we run a research operation that spans time zones, with millions of outreach touchpoints behind us." },
-    ],
-  },
-
   team: {
     eyebrow: "Our team",
-    heading: "Built to move fast, at scale.",
-    body: "We don't just list headshots — we build operational capacity. Sector-dedicated recruiters, research analysts who map talent pools before a role even opens, and coordinated operations across multiple countries for round-the-clock coverage.",
-    highlights: [
-      { stat: "30+", label: "Recruiters & business development managers" },
-      { stat: "Multi-sector", label: "Dedicated research analysts per sector" },
-      { stat: "Global", label: "Operations across several countries" },
-    ],
+    heading: "Built to move fast.",
+    body: "We don't just list headshots — we build operational capacity. Sector-dedicated recruiters and research analysts who map talent pools before a role even opens.",
   },
 };
