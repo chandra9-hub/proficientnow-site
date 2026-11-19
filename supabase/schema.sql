@@ -109,6 +109,15 @@ create table if not exists public.applications (
 
 create index if not exists applications_job_id_idx on public.applications (job_id);
 
+-- applicant links are rendered as <a href> in /admin: only allow http(s) URLs.
+-- Separate ALTERs so they also land on an existing table; NOT VALID skips old rows.
+alter table public.applications drop constraint if exists applications_linkedin_url_http;
+alter table public.applications add constraint applications_linkedin_url_http
+  check (linkedin_url is null or linkedin_url ~* '^https?://') not valid;
+alter table public.applications drop constraint if exists applications_portfolio_url_http;
+alter table public.applications add constraint applications_portfolio_url_http
+  check (portfolio_url is null or portfolio_url ~* '^https?://') not valid;
+
 -- -----------------------------------------------------------------------------
 -- Row Level Security
 -- -----------------------------------------------------------------------------

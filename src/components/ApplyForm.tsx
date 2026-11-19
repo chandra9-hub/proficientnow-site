@@ -88,9 +88,9 @@ export default function ApplyForm({ jobId, jobTitle }: { jobId: string; jobTitle
       </div>
       <div style={half} className="careers-filters">
         <div><label className="label">Years of experience</label><input name="yearsExperience" className="field" /></div>
-        <div><label className="label">LinkedIn</label><input name="linkedin" className="field" /></div>
+        <div><label className="label">LinkedIn</label><input name="linkedin" type="url" className="field" placeholder="https://" /></div>
       </div>
-      <div><label className="label">Portfolio (optional)</label><input name="portfolio" className="field" /></div>
+      <div><label className="label">Portfolio (optional)</label><input name="portfolio" type="url" className="field" placeholder="https://" /></div>
       <div><label className="label">Cover letter (optional)</label><textarea name="coverLetter" rows={4} className="field" /></div>
       <div>
         <label className="label">Upload CV * ({careers.upload.accept.replace(/\./g, "").replace(/,/g, ", ")} · max {careers.upload.maxSizeMB} MB)</label>

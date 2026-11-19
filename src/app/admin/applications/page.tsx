@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import AdminShell from "@/components/AdminShell";
 import { supabase } from "@/lib/supabase";
+import { safeUrl } from "@/lib/safeUrl";
 
 const STATUSES = ["Applied", "Shortlisted", "Interview", "Offer", "Hired", "Rejected"];
 
@@ -158,10 +159,11 @@ export default function ApplicationsInbox() {
 
 function Detail({ label, value, link }: { label: string; value: string | null; link?: boolean }) {
   if (!value) return null;
+  const href = link ? safeUrl(value) : null;
   return (
     <div>
       <div className="muted" style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: ".08em" }}>{label}</div>
-      {link ? <a href={value} target="_blank" rel="noreferrer" className="accent" style={{ fontSize: 15, wordBreak: "break-all" }}>{value}</a>
+      {href ? <a href={href} target="_blank" rel="noopener noreferrer" className="accent" style={{ fontSize: 15, wordBreak: "break-all" }}>{value}</a>
             : <div style={{ fontSize: 15, marginTop: 2, color: "var(--heading)" }}>{value}</div>}
     </div>
   );
