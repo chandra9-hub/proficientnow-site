@@ -6,7 +6,7 @@ export const careers = {
   header: {
     eyebrow: "Careers",
     headline: "Find your next role *with people who get your field.*",
-    subhead: "Browse our live vacancies, filter by what matters to you, and apply in a couple of minutes — CV in any format.",
+    subhead: "Browse our live vacancies, filter by what matters to you, and apply in a couple of minutes with your CV (PDF or Word).",
   },
 
   // Shown when there are no published jobs yet.
@@ -18,10 +18,10 @@ export const careers = {
 
   // CV upload rules
   upload: {
-    maxSizeMB: 10,
-    // Accepted file types for the file picker. "Any format" per your request —
-    // this covers the common ones; the browser still allows others.
-    accept: ".pdf,.doc,.docx,.rtf,.odt,.txt,.pages",
+    // Vercel caps request bodies at 4.5 MB and Airtable uploads at 5 MB.
+    maxSizeMB: 4,
+    // The server checks the real file contents, so only these three are accepted.
+    accept: ".pdf,.doc,.docx",
   },
 
   // Text shown after a successful application

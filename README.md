@@ -1,21 +1,21 @@
 # ProficientNow UK
 
 Marketing and careers site for ProficientNow UK, live at [www.proficientnow.co.uk](https://www.proficientnow.co.uk).
-Public pages, a careers portal with CV upload, news/blog, and a small admin area for jobs, posts and applications.
+Public pages, a careers portal with CV upload, and news/blog. Jobs, posts and applications are managed in Airtable (there is no admin panel in the site).
 
-**Stack:** Next.js 14 (App Router), React 18, TypeScript, Tailwind CSS, Framer Motion, Supabase (Postgres, Auth, Storage), hosted on Vercel.
+**Stack:** Next.js 14 (App Router), React 18, TypeScript, Tailwind CSS, Framer Motion, Airtable (CMS + applications), hosted on Vercel.
 
 ## Local development
 
-Requires Node.js 18.17+ (20 LTS recommended).
+Requires Node.js 20+.
 
 ```bash
 npm ci
-cp .env.example .env.local   # fill in the Supabase URL and anon key
+cp .env.example .env.local   # fill in AIRTABLE_PAT and AIRTABLE_BASE_ID
 npm run dev                  # http://localhost:3000
 ```
 
-Without Supabase env vars the site still runs; careers, news and blog render empty and login is disabled.
+Without the Airtable env vars the site still builds and runs; careers, news and blog show their empty states and applications are refused.
 
 Other scripts: `npm run build`, `npm start`.
 
@@ -26,9 +26,10 @@ Other scripts: `npm run build`, `npm start`.
 | `content/*.ts` | All editable copy: site details, nav, home, about, services, sectors, industries, careers, salaries, legal, theme |
 | `src/app/` | Routes (one folder per page) |
 | `src/components/` | Shared UI components |
-| `src/lib/supabase.ts` | Supabase client and `Job` / `Post` types |
+| `src/lib/airtable.ts` | Server-only Airtable client (reads, create, CV upload) |
+| `src/lib/data.ts` | `Job` / `Post` types and the Airtable field-name mapping |
+| `src/lib/markdown.ts` | Markdown to sanitized HTML for job and post text |
 | `public/` | Logos, illustrations and photos |
-| `supabase/schema.sql` | Expected database schema, RLS policies and storage bucket |
 
 In headlines, wrap words in `*asterisks*` to render them in the accent colour.
 
@@ -37,27 +38,45 @@ In headlines, wrap words in `*asterisks*` to render them in the accent colour.
 | Route | Notes |
 |-------|-------|
 | `/`, `/about`, `/services`, `/sectors`, `/sectors/[slug]`, `/contact`, `/salary-calculator` | Static, driven by `content/` |
-| `/careers`, `/careers/[slug]` | Published jobs from Supabase, apply form uploads CV to the `cvs` bucket |
-| `/news`, `/news/[slug]`, `/blog`, `/blog/[slug]` | Published posts from Supabase |
+| `/careers`, `/careers/[slug]` | Published jobs from Airtable; the apply form posts to `/api/apply` |
+| `/news`, `/news/[slug]`, `/blog`, `/blog/[slug]` | Published posts from Airtable |
+| `/api/apply` | Validates an application and CV, saves it to the Applications table |
+| `/api/attachment/Posts/[record]/[attachment]` | Stable, cached URL for a post's cover image (Airtable file links expire) |
 | `/privacy`, `/terms`, `/cookies`, `/gdpr` | Legal pages from `content/legal.ts` |
-| `/login`, `/admin`, `/admin/jobs`, `/admin/news`, `/admin/applications` | Admin area, Supabase Auth (email + password) |
 | `/sitemap.xml`, `/robots.txt` | Generated |
 
-## Supabase setup
+## Airtable (CMS)
 
-1. Create a Supabase project and copy its URL and anon key into `.env.local` (and Vercel).
-2. Review `supabase/schema.sql` against the project, then run it in the SQL Editor. It is not applied automatically.
-3. Disable public sign-ups (Authentication > Sign In / Providers > Email > "Allow new users to sign up").
-4. Create each admin user by hand, then add their user id to the allowlist:
-   `insert into public.admins (user_id) values ('<auth user id>');`
-   Only users in `public.admins` get admin access; being signed in is not enough.
+Base: **ProficientNow UK** (`appkKYYKIVwyHSPQZ`). The code reads the base id from `AIRTABLE_BASE_ID` and uses field **names**, so renaming a field breaks the site.
 
-The anon key is exposed to the browser by design; Row Level Security is what protects the data.
+| Table | Fields |
+|-------|--------|
+| **Jobs** | Title, Slug, Published, Featured, Sector, Location, Country, Employment Type (Permanent / Contract / Temporary / Part-time), Salary Range, Experience Required, Department, Working Hours, Description, Responsibilities, Requirements, Benefits (markdown), Closing Date, Posted Date |
+| **Posts** | Title, Slug, Type (News / Blog), Published, Featured, Excerpt, Meta Description, Body (markdown), Cover Image, Cover Alt, Category, Author, Source Name, Source URL, Published Date |
+| **Applications** | Name, First Name, Last Name, Email, Phone, Job (link to Jobs), Job Title, Current Location, Notice Period, Current Salary, Expected Salary, Years Experience, LinkedIn URL, Portfolio URL, Cover Letter, CV, Status, Source |
+
+**Publish a job:** add a row in Jobs with a Title and a unique Slug (lowercase-words-with-hyphens, it becomes `/careers/<slug>`), fill in the details, then tick **Published**. Untick it to take the role down. Tick **Featured** to pin it to the top.
+
+**Publish a news item or blog post:** add a row in Posts, set Type to News or Blog, a unique Slug, the Body in markdown (`## Heading`, `**bold**`, `[link](https://…)`), optionally a Cover Image (image file, under 4 MB) with Cover Alt text, then tick **Published**. Meta Description (about 150 characters) is used for search results; Excerpt is the fallback.
+
+Changes appear on the site within about 5 minutes. Markdown is sanitized: scripts, inline event handlers and non-http(s) links are removed.
+
+**Applications** arrive in the Applications table with Status "Applied", Source "Website", the linked Job and the CV attached (PDF, DOC or DOCX, max 4 MB). CVs are only visible inside Airtable; the site never serves them.
+
+### Environment variables
+
+| Name | Value |
+|------|-------|
+| `AIRTABLE_PAT` | Personal access token, scopes `data.records:read` and `data.records:write`, access limited to this base |
+| `AIRTABLE_BASE_ID` | `appkKYYKIVwyHSPQZ` |
+| `AIRTABLE_API_URL`, `AIRTABLE_CONTENT_URL` | Test-only overrides to point at a local mock. Never set them in Vercel |
+
+Both are server-only: never prefix them with `NEXT_PUBLIC_`.
 
 ## Deploy (Vercel)
 
 Pushes to `main` deploy to production; other branches get preview URLs.
 
 - **Root Directory** (Settings > Build & Deployment) must be blank (repo root). The app used to live in `proficientnow-site/`.
-- Set `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` under Settings > Environment Variables.
+- Set `AIRTABLE_PAT` and `AIRTABLE_BASE_ID` under Settings > Environment Variables (Production and Preview).
 - Domains are managed under Settings > Domains.

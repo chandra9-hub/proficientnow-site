@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { Post } from "@/lib/supabase";
+import type { Post } from "@/lib/data";
 import { topicPhoto } from "@/lib/photos";
 import { safeUrl } from "@/lib/safeUrl";
 
@@ -35,7 +35,7 @@ export default function PostArticle({ type, post }: { type: "news" | "blog"; pos
                 <div className="meta">{fmtDate(post.published_at)} · {post.author || "ProficientNow"}</div>
               </div>
 
-              <img className="article-hero" src={hero} alt={post.title} loading="lazy" />
+              <img className="article-hero" src={hero} alt={post.cover_alt || post.title} loading="lazy" />
 
               {parsed.intro && <div className="article-lead rich" dangerouslySetInnerHTML={{ __html: parsed.intro }} />}
 

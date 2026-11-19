@@ -1,6 +1,6 @@
 // Curated, VERIFIED people-free photos, hosted locally in /public/photos.
 // (Unsplash — free for commercial use, no attribution required.)
-// Swap any post's image via the "Cover image" field in the admin editor.
+// Posts without a "Cover Image" in Airtable fall back to these.
 const P = (n: string) => `/photos/${n}.jpg`;
 
 const CAT: Record<string, string[]> = {

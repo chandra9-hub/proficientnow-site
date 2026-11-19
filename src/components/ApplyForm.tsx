@@ -1,53 +1,32 @@
 "use client";
 
-import { useState } from "react";
-import { supabase } from "@/lib/supabase";
+import { useEffect, useState } from "react";
 import { careers } from "@content/careers";
 
 export default function ApplyForm({ jobId, jobTitle }: { jobId: string; jobTitle: string }) {
   const [status, setStatus] = useState<"idle" | "submitting" | "done" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  // Set after mount: the server rejects forms submitted within seconds of loading (bots).
+  const [startedAt, setStartedAt] = useState("");
+  useEffect(() => setStartedAt(String(Date.now())), []);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!supabase) { setStatus("error"); setErrorMsg("The application system isn't connected yet. Please email us your CV."); return; }
     setStatus("submitting");
     setErrorMsg("");
-    const form = e.currentTarget;
-    const data = new FormData(form);
+    const data = new FormData(e.currentTarget);
     const file = data.get("cv") as File | null;
 
     try {
-      // size check
       if (!file || file.size === 0) throw new Error("Please attach your CV.");
       if (file.size > careers.upload.maxSizeMB * 1024 * 1024)
         throw new Error(`Your CV is larger than ${careers.upload.maxSizeMB} MB. Please upload a smaller file.`);
 
-      // 1) upload CV to the private "cvs" bucket under an unguessable folder
-      const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
-      const path = `${crypto.randomUUID()}/${safeName}`;
-      const up = await supabase.storage.from("cvs").upload(path, file, { upsert: false });
-      if (up.error) throw up.error;
-
-      // 2) save the application row
-      const ins = await supabase.from("applications").insert({
-        job_id: jobId,
-        first_name: data.get("firstName"),
-        last_name: data.get("lastName"),
-        email: data.get("email"),
-        phone: data.get("phone"),
-        current_location: data.get("currentLocation") || null,
-        notice_period: data.get("noticePeriod"),
-        current_salary: data.get("currentSalary") || null,
-        expected_salary: data.get("expectedSalary"),
-        years_experience: data.get("yearsExperience") || null,
-        linkedin_url: data.get("linkedin") || null,
-        portfolio_url: data.get("portfolio") || null,
-        cover_letter: data.get("coverLetter") || null,
-        cv_path: path,
-      });
-      if (ins.error) throw ins.error;
-
+      const res = await fetch("/api/apply", { method: "POST", body: data });
+      if (!res.ok) {
+        const body = await res.json().catch(() => null);
+        throw new Error(body?.error || "Something went wrong. Please try again or email us your CV.");
+      }
       setStatus("done");
     } catch (err: any) {
       setStatus("error");
@@ -68,6 +47,12 @@ export default function ApplyForm({ jobId, jobTitle }: { jobId: string; jobTitle
 
   return (
     <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+      <input type="hidden" name="jobId" value={jobId} />
+      <input type="hidden" name="startedAt" value={startedAt} />
+      {/* Honeypot: hidden from people, often filled in by bots. */}
+      <div aria-hidden="true" style={{ position: "absolute", left: -10000, width: 1, height: 1, overflow: "hidden" }}>
+        <label>Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
+      </div>
       <p className="muted" style={{ fontSize: 14 }}>Applying for: <span style={{ color: "var(--heading)", fontWeight: 600 }}>{jobTitle}</span>. Fields marked * are required.</p>
 
       <div style={half} className="careers-filters">
@@ -98,7 +83,7 @@ export default function ApplyForm({ jobId, jobTitle }: { jobId: string; jobTitle
       </div>
 
       <label style={{ display: "flex", gap: 10, alignItems: "flex-start", fontSize: 14 }} className="muted">
-        <input type="checkbox" required style={{ marginTop: 3 }} />
+        <input type="checkbox" name="consent" value="yes" required style={{ marginTop: 3 }} />
         <span>I consent to ProficientNow storing my details and CV to consider me for this and future relevant roles. *</span>
       </label>
 

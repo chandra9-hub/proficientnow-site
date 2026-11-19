@@ -1,15 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { navLinks } from "@content/nav";
 import ThemeToggle from "./ThemeToggle";
 export default function Navbar() {
   const [solid, setSolid] = useState(false);
   const [open, setOpen] = useState(false);
-  const pathname = usePathname();
   useEffect(() => { const s = () => setSolid(scrollY > 60); s(); addEventListener("scroll", s, { passive: true }); return () => removeEventListener("scroll", s); }, []);
-  if (pathname?.startsWith("/admin") || pathname?.startsWith("/login")) return null;
   return (
     <header className={`nav ${solid ? "solid" : ""}`}>
       <div className="container-x">

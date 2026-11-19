@@ -2,10 +2,15 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import ApplyForm from "@/components/ApplyForm";
-import { getJob } from "@/lib/data";
-import { clip, pageMeta } from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
+import { getJob, getJobs } from "@/lib/data";
+import { clip, jobPostingLd, pageMeta } from "@/lib/seo";
 
 export const revalidate = 300;
+
+export async function generateStaticParams() {
+  return ((await getJobs()) ?? []).map((j) => ({ slug: j.slug }));
+}
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const job = await getJob(params.slug);
@@ -14,12 +19,13 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   return pageMeta(`/careers/${job.slug}`, `${job.title}${where}`, clip(job.description) || `Apply for ${job.title}${where} with ProficientNow, a specialist UK recruitment agency.`);
 }
 
-function Block({ title, text }: { title: string; text: string | null }) {
-  if (!text) return null;
+// `html` is already sanitized by lib/markdown.
+function Block({ title, html }: { title: string; html: string | null }) {
+  if (!html) return null;
   return (
     <div style={{ marginTop: 26 }}>
       <h3 style={{ fontSize: 18 }}>{title}</h3>
-      <div className="muted rich" style={{ marginTop: 8, lineHeight: 1.75 }} dangerouslySetInnerHTML={{ __html: text }} />
+      <div className="muted rich" style={{ marginTop: 8, lineHeight: 1.75 }} dangerouslySetInnerHTML={{ __html: html }} />
     </div>
   );
 }
@@ -32,6 +38,7 @@ export default async function JobDetailPage({ params }: { params: { slug: string
 
   return (
     <>
+      <JsonLd data={jobPostingLd(job)} />
       <section className="page-header" style={{ paddingBottom: 30 }}>
         <div className="container-x" style={{ maxWidth: 820, marginLeft: "auto", marginRight: "auto" }}>
           <Link href="/careers" className="accent" style={{ fontSize: 14, fontWeight: 600 }}>← All roles</Link>
@@ -51,11 +58,16 @@ export default async function JobDetailPage({ params }: { params: { slug: string
         <div className="container-x" style={{ maxWidth: 820, marginLeft: "auto", marginRight: "auto" }}>
           {hasDetails && (
             <div className="panel" style={{ marginBottom: 28 }}>
-              <Block title="About the role" text={job.description} />
-              <Block title="Responsibilities" text={job.responsibilities} />
-              <Block title="Requirements" text={job.requirements} />
-              <Block title="Benefits" text={job.benefits} />
-              {job.working_hours && <Block title="Working hours" text={job.working_hours} />}
+              <Block title="About the role" html={job.description} />
+              <Block title="Responsibilities" html={job.responsibilities} />
+              <Block title="Requirements" html={job.requirements} />
+              <Block title="Benefits" html={job.benefits} />
+              {job.working_hours && (
+                <div style={{ marginTop: 26 }}>
+                  <h3 style={{ fontSize: 18 }}>Working hours</h3>
+                  <p className="muted" style={{ marginTop: 8, lineHeight: 1.75 }}>{job.working_hours}</p>
+                </div>
+              )}
             </div>
           )}
 
