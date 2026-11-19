@@ -29,7 +29,7 @@ export default function LegalPage({ doc }: { doc: Doc }) {
             ))}
             <p style={{ marginTop: 34, fontSize: 13, color: "var(--muted)" }}>
               This document is provided for general information and is reviewed at least annually.
-              For questions, contact <a href={`mailto:${legalMeta.email}`} style={{ color: "var(--accent)" }}>{legalMeta.email}</a>.
+              For questions, contact <a href={`mailto:${legalMeta.email}`} style={{ color: "var(--accent-text)" }}>{legalMeta.email}</a>.
             </p>
             <p style={{ marginTop: 18 }}>
               <Link href="/privacy" className="cardlink" style={{ marginRight: 20 }}>Privacy Policy</Link>

@@ -16,7 +16,7 @@ export default function DataChart() {
     <div className="chartcard">
       <div className="chart-h">
         <span className="eyebrow">UK labour market</span>
-        <h4>Job vacancies are near a four-year low</h4>
+        <h3>Job vacancies are near a four-year low</h3>
       </div>
       <svg viewBox="0 0 400 300" fill="none" className="chart-svg">
         {grids.map((gv) => (
