@@ -1,35 +1,16 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
-import { supabase, type Job } from "@/lib/supabase";
+import type { Job } from "@/lib/supabase";
 import { careers } from "@content/careers";
 
-export default function CareersBrowser() {
-  const [jobs, setJobs] = useState<Job[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+// Jobs are fetched on the server; this only filters them. Empty/unreachable both show the empty state.
+export default function CareersBrowser({ jobs }: { jobs: Job[] }) {
   const [q, setQ] = useState("");
   const [sector, setSector] = useState("");
   const [location, setLocation] = useState("");
   const [type, setType] = useState("");
-
-  useEffect(() => {
-    let active = true;
-    (async () => {
-      if (!supabase) { setError(true); setLoading(false); return; }
-      const { data, error } = await supabase
-        .from("jobs")
-        .select("*")
-        .eq("status", "published")
-        .order("featured", { ascending: false })
-        .order("created_at", { ascending: false });
-      if (!active) return;
-      if (error) { setError(true); } else { setJobs((data as Job[]) || []); }
-      setLoading(false);
-    })();
-    return () => { active = false; };
-  }, []);
 
   const sectors = useMemo(() => Array.from(new Set(jobs.map((j) => j.sector).filter(Boolean))) as string[], [jobs]);
   const locations = useMemo(() => Array.from(new Set(jobs.map((j) => j.location).filter(Boolean))) as string[], [jobs]);
@@ -45,10 +26,7 @@ export default function CareersBrowser() {
     );
   });
 
-  if (loading) return <p className="muted" style={{ textAlign: "center", padding: "60px 0" }}>Loading roles…</p>;
-
-  // No jobs at all → friendly empty state
-  if (!error && jobs.length === 0) {
+  if (jobs.length === 0) {
     return (
       <div className="panel" style={{ textAlign: "center", maxWidth: 640, margin: "0 auto" }}>
         <h2 style={{ fontSize: 26 }}>{careers.emptyState.heading}</h2>
@@ -58,29 +36,20 @@ export default function CareersBrowser() {
     );
   }
 
-  if (error) {
-    return (
-      <div className="panel" style={{ textAlign: "center", maxWidth: 640, margin: "0 auto" }}>
-        <h2 style={{ fontSize: 22 }}>Careers board is being set up.</h2>
-        <p className="muted" style={{ marginTop: 12 }}>Please check back shortly, or <Link href="/contact" className="accent">send us your CV</Link> in the meantime.</p>
-      </div>
-    );
-  }
-
   return (
     <div>
       {/* Search + filters */}
       <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: 12, marginBottom: 36 }} className="careers-filters">
-        <input className="field" placeholder="Search roles…" value={q} onChange={(e) => setQ(e.target.value)} />
-        <select className="field" value={sector} onChange={(e) => setSector(e.target.value)}>
+        <input className="field" aria-label="Search roles" placeholder="Search roles…" value={q} onChange={(e) => setQ(e.target.value)} />
+        <select className="field" aria-label="Sector" value={sector} onChange={(e) => setSector(e.target.value)}>
           <option value="">All sectors</option>
           {sectors.map((s) => <option key={s}>{s}</option>)}
         </select>
-        <select className="field" value={location} onChange={(e) => setLocation(e.target.value)}>
+        <select className="field" aria-label="Location" value={location} onChange={(e) => setLocation(e.target.value)}>
           <option value="">All locations</option>
           {locations.map((l) => <option key={l}>{l}</option>)}
         </select>
-        <select className="field" value={type} onChange={(e) => setType(e.target.value)}>
+        <select className="field" aria-label="Employment type" value={type} onChange={(e) => setType(e.target.value)}>
           <option value="">All types</option>
           {types.map((t) => <option key={t}>{t}</option>)}
         </select>
