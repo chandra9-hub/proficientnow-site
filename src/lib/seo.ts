@@ -108,8 +108,11 @@ const UNIT: [RegExp, string][] = [[/hour|\bph\b|\/hr\b/i, "HOUR"], [/day|daily/i
 export function parseSalary(range: string | null | undefined) {
   if (!range) return null;
   const currency = CURRENCY[range.match(/[£$€]/)?.[0] ?? ""] ?? (/\bGBP\b/i.test(range) ? "GBP" : null);
-  const amounts = Array.from(range.matchAll(/(\d[\d,]*(?:\.\d+)?)\s*(k)?/gi), (m) => parseFloat(m[1].replace(/,/g, "")) * (m[2] ? 1000 : 1)).filter((n) => n > 0);
+  // Percentages (bonus, pension) are not pay amounts.
+  const amounts = Array.from(range.matchAll(/(\d[\d,]*(?:\.\d+)?)\s*(k)?(\s*%)?/gi))
+    .filter((m) => !m[3]).map((m) => parseFloat(m[1].replace(/,/g, "")) * (m[2] ? 1000 : 1)).filter((n) => n > 0);
   if (!currency || !amounts.length || amounts.length > 2) return null;
+  if (amounts.length === 2 && Math.min(...amounts) * 10 < Math.max(...amounts)) return null;
   const unitText = UNIT.find(([re]) => re.test(range))?.[1] ?? (amounts[0] >= 1000 ? "YEAR" : null);
   if (!unitText) return null;
   const [min, max] = amounts;
