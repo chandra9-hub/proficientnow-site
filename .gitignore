@@ -1,0 +1,20 @@
+# dependencies
+node_modules/
+
+# next.js build output
+.next/
+out/
+
+# env files (commit .env.example only)
+.env
+.env*.local
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+
+# os / editor
+.DS_Store
+*.log

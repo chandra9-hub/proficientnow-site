@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { supabase, type Post } from "@/lib/supabase";
 import { topicPhoto } from "@/lib/photos";
+import { safeUrl } from "@/lib/safeUrl";
 
 function fmtDate(iso: string | null) {
   if (!iso) return "";
@@ -71,7 +72,9 @@ export default function PostArticle({ type, slug }: { type: "news" | "blog"; slu
                 {(post.source_name || post.source_url) && (
                   <div className="article-src">
                     Source: {post.source_name}{post.source_url ? " — " : ""}
-                    {post.source_url && <a href={post.source_url} target="_blank" rel="noreferrer">{post.source_url}</a>}
+                    {post.source_url && (safeUrl(post.source_url)
+                      ? <a href={safeUrl(post.source_url)!} target="_blank" rel="noopener noreferrer">{post.source_url}</a>
+                      : post.source_url)}
                   </div>
                 )}
                 <div className="article-cta">
